@@ -1,4 +1,3 @@
-
 namespace SIS2Server.API;
 
 public class Program
@@ -23,6 +22,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        
         app.UseAuthorization();
 
 
