@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SIS2Server.Core.Common;
 
-namespace SIS2Server.Core.Entities.UserRelated
+namespace SIS2Server.Core.Entities.UserRelated;
+
+public class Dean : PersonEntity
 {
-    internal class Dean
-    {
-    }
+    public string AppUserId { get; set; }
+
+    // //
+
+
+    // //
+    public AppUser? AppUser { get; set; }
 }

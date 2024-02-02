@@ -2,12 +2,12 @@
 
 namespace SIS2Server.Core.Entities.UserRelated;
 
-public class Student : BaseEntity
+public class Student : PersonEntity
 {
     public string AppUserId { get; set; }
 
     // //
-    public DateOnly Birthday { get; set; }
+
 
     // //
     public AppUser? AppUser { get; set; }
