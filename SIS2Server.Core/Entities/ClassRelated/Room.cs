@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SIS2Server.Core.Entities.ClassRelated;
 
-namespace SIS2Server.Core.Entities.ClassRelated
+public class Room
 {
-    internal class Room
-    {
-    }
 }

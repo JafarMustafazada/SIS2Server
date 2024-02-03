@@ -2,13 +2,10 @@
 
 public static class Roles
 {
-    public enum Definitions
+    public enum RoleNames
     {
-        User,
         SuperAdmin,
         Admin,
-        Rector,
-        Dean,
         Teacher,
         Student,
     }
@@ -16,19 +13,15 @@ public static class Roles
     /// <summary>
     /// Access level for every university member
     /// </summary>
-    public const string AccessLevel1 = nameof(Definitions.SuperAdmin)
-        + ", " + nameof(Definitions.Admin)
-        + ", " + nameof(Definitions.Rector)
-        + ", " + nameof(Definitions.Dean)
-        + ", " + nameof(Definitions.Teacher)
-        + ", " + nameof(Definitions.Student);
+    public const string AccessLevel1 = nameof(RoleNames.SuperAdmin)
+        + ", " + nameof(RoleNames.Admin)
+        + ", " + nameof(RoleNames.Teacher)
+        + ", " + nameof(RoleNames.Student);
 
     /// <summary>
     /// Access level for every staff member
     /// </summary>
-    public const string AccessLevel2 = nameof(Definitions.SuperAdmin)
-        + ", " + nameof(Definitions.Admin)
-        + ", " + nameof(Definitions.Rector)
-        + ", " + nameof(Definitions.Dean)
-        + ", " + nameof(Definitions.Teacher);
+    public const string AccessLevel2 = nameof(RoleNames.SuperAdmin)
+        + ", " + nameof(RoleNames.Admin)
+        + ", " + nameof(RoleNames.Teacher);
 }

@@ -3,17 +3,38 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS2Server.API", "SIS2Server.API\SIS2Server.API.csproj", "{D4665EB2-63FE-4B91-A3B2-7DF80CD32A06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIS2Server.API", "SIS2Server.API\SIS2Server.API.csproj", "{D4665EB2-63FE-4B91-A3B2-7DF80CD32A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS2Server.DAL", "SIS2Server.DAL\SIS2Server.DAL.csproj", "{C375C79C-5002-436A-B11F-251152198557}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIS2Server.DAL", "SIS2Server.DAL\SIS2Server.DAL.csproj", "{C375C79C-5002-436A-B11F-251152198557}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS2Server.BLL", "SIS2Server.BLL\SIS2Server.BLL.csproj", "{B6DD6DBF-1FF7-41BB-AA5E-5A75323E33D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIS2Server.BLL", "SIS2Server.BLL\SIS2Server.BLL.csproj", "{B6DD6DBF-1FF7-41BB-AA5E-5A75323E33D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS2Server.DTO", "SIS2Server.DTO\SIS2Server.DTO.csproj", "{82BB186A-BB5A-4349-9747-5828E27624BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIS2Server.DTO", "SIS2Server.DTO\SIS2Server.DTO.csproj", "{82BB186A-BB5A-4349-9747-5828E27624BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS2Server.Tools", "SIS2Server.Tools\SIS2Server.Tools.csproj", "{1A5A96EC-605C-452C-A6E3-23781A06CEF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIS2Server.Tools", "SIS2Server.Tools\SIS2Server.Tools.csproj", "{1A5A96EC-605C-452C-A6E3-23781A06CEF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIS2Server.Core", "SIS2Server.Core\SIS2Server.Core.csproj", "{596E874B-DB7F-47D5-A464-7679FAE12876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SIS2Server.Core", "SIS2Server.Core\SIS2Server.Core.csproj", "{596E874B-DB7F-47D5-A464-7679FAE12876}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SIS2Server.Root", "SIS2Server.Root\", "{64566F12-1E4A-42EC-AFF4-CBEACFE26F75}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_64360"
+		Debug.AspNetCompiler.PhysicalPath = "SIS2Server.Root\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64360\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_64360"
+		Release.AspNetCompiler.PhysicalPath = "SIS2Server.Root\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_64360\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "64360"
+		SlnRelativePath = "SIS2Server.Root\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +66,10 @@ Global
 		{596E874B-DB7F-47D5-A464-7679FAE12876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{596E874B-DB7F-47D5-A464-7679FAE12876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{596E874B-DB7F-47D5-A464-7679FAE12876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64566F12-1E4A-42EC-AFF4-CBEACFE26F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64566F12-1E4A-42EC-AFF4-CBEACFE26F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64566F12-1E4A-42EC-AFF4-CBEACFE26F75}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{64566F12-1E4A-42EC-AFF4-CBEACFE26F75}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

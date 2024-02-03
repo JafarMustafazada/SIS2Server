@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SIS2Server.Core.Entities.SubjectRelated;
 
-namespace SIS2Server.Core.Entities.SubjectRelated
+public class Subject
 {
-    internal class Subject
-    {
-    }
 }

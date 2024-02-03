@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SIS2Server.Core.Entities.UserRelated;
 
-namespace SIS2Server.Core.Entities.SubjectRelated
+namespace SIS2Server.Core.Entities.SubjectRelated;
+
+public class Group
 {
-    internal class Group
-    {
-    }
+    public int FacultyId { get; set; }
+
+    // //
+    public Faculty? Faculty { get; set; }
+    public IEnumerable<Student>? Students { get; set; }
 }
