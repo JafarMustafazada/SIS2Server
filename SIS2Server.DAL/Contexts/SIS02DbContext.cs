@@ -16,6 +16,7 @@ public class SIS02DbContext : IdentityDbContext<AppUser>
     public DbSet<AppUser> AppUsers { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
+    public DbSet<FamilyMember> FamilyMembers { get; set; }
     public DbSet<UserStudent> UserStudents { get; set; }
     public DbSet<UserTeacher> UserTeachers { get; set; }
     // //

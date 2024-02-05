@@ -24,4 +24,10 @@ public static class Roles
     public const string AccessLevel2 = nameof(RoleNames.SuperAdmin)
         + ", " + nameof(RoleNames.Admin)
         + ", " + nameof(RoleNames.Teacher);
+
+    /// <summary>
+    /// Access level only for administration
+    /// </summary>
+    public const string AccessLevel3 = nameof(RoleNames.SuperAdmin)
+        + ", " + nameof(RoleNames.Admin);
 }

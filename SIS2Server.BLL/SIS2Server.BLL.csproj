@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SIS2Server.DAL\SIS2Server.DAL.csproj" />
+    <ProjectReference Include="..\SIS2Server.DTO\SIS2Server.DTO.csproj" />
+  </ItemGroup>
+
 </Project>
