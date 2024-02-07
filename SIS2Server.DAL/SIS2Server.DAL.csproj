@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SIS2Server.Core\SIS2Server.Core.csproj" />
-    <ProjectReference Include="..\SIS2Server.Tools\SIS2Server.Tools.csproj" />
   </ItemGroup>
 
 </Project>

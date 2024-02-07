@@ -14,9 +14,12 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.Property(e => e.Salary)
             .IsRequired();
         builder.Property(e => e.Proficiency)
-            .HasMaxLength(32)
-            .IsRequired();
-        builder.Property(e => e.GotInAt)
+            .IsRequired()
+            .HasMaxLength(32);
+        builder.Property(e => e.Entered)
+            .IsRequired()
+            .HasColumnType("date"); 
+        builder.Property(e => e.Expiration)
             .IsRequired()
             .HasColumnType("date");
 

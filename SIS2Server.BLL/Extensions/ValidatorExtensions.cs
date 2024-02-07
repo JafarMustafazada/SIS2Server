@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace SIS2Server.Tools.Extensions;
+namespace SIS2Server.BLL.Extensions;
 
 public static class ValidatorExtensions
 {

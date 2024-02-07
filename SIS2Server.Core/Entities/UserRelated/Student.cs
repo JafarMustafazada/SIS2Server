@@ -9,11 +9,11 @@ public class Student : PersonEntity
 
     // //
     public DateOnly Entered { get; set; }
-    public bool Gender { get; set; }
-    public string Nationality { get; set; }
     public DateOnly Graduation { get; set; }
+    public string Nationality { get; set; }
 
     // //
     public Group? Group { get; set; }
     public IEnumerable<UserStudent>? UserStudents { get; set; }
+    public IEnumerable<FamilyMember>? FamilyMembers { get; set; }
 }

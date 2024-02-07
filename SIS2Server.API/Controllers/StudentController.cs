@@ -20,7 +20,7 @@ public class StudentController : ControllerBase
 
     // GET api/<StudentController>/5
     [HttpGet("{id}")]
-    [Authorize(Roles = Roles.AccessLevel1)]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public string Get(int id)
     {
         return "value";
@@ -28,21 +28,21 @@ public class StudentController : ControllerBase
 
     // POST api/<StudentController>
     [HttpPost]
-    [Authorize(Roles = Roles.AccessLevel3)]
+    [Authorize(Roles = ConstRoles.AccessLevel3)]
     public void Post([FromBody] string value)
     {
     }
 
     // PUT api/<StudentController>/5
     [HttpPut("{id}")]
-    [Authorize(Roles = Roles.AccessLevel2)]
+    [Authorize(Roles = ConstRoles.AccessLevel2)]
     public void Put(int id, [FromBody] string value)
     {
     }
 
     // DELETE api/<StudentController>/5
     [HttpDelete("{id}")]
-    [Authorize(Roles = Roles.AccessLevel3)]
+    [Authorize(Roles = ConstRoles.AccessLevel3)]
     public void Delete(int id)
     {
     }

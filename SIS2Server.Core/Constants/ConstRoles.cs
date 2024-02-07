@@ -1,13 +1,14 @@
 ﻿namespace SIS2Server.Core.Constants;
 
-public static class Roles
+public static class ConstRoles
 {
     public enum RoleNames
     {
-        SuperAdmin,
+        User,
         Admin,
-        Teacher,
+        SuperAdmin,
         Student,
+        Teacher,
     }
 
     /// <summary>
