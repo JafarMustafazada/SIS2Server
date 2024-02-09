@@ -1,40 +1,27 @@
-﻿using SIS2Server.Core.Entities.UserRelated;
+﻿using SIS2Server.BLL.DTO.Common;
+using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.BLL.DTO.UserRelatedDTO;
 
-public class RegisterDto
+public class RegisterDto : IBaseDto<AppUser>
 {
     public string UserName { get; set; }
     public string Password { get; set; }
+    public string Email { get; set; }
+    public string PhoneNumber { get; set; }
 
-    public RegisterDto()
-    {
-
-    }
-    //public RegisterDTO(AppUser user)
-    //{
-
-    //}
-    public AppUser ToEntity()
+    public AppUser GetEntity()
     {
         return new()
         {
             UserName = this.UserName,
-
+            Email = this.Email,
+            PhoneNumber = this.PhoneNumber,
         };
     }
+
+    public void SetEntity(AppUser entity)
+    {
+        throw new NotImplementedException();
+    }
 }
-
-// DTO template
-//public RegisterDTO()
-//{
-
-//}
-//public RegisterDTO(AppUser user)
-//{
-
-//}
-//public AppUser ToEntity()
-//{
-//    return default;
-//}

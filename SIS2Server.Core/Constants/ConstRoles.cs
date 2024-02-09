@@ -2,7 +2,7 @@
 
 public static class ConstRoles
 {
-    public enum RoleNames
+    public enum RoleEnum
     {
         User,
         Admin,
@@ -14,21 +14,21 @@ public static class ConstRoles
     /// <summary>
     /// Access level for every university member
     /// </summary>
-    public const string AccessLevel1 = nameof(RoleNames.SuperAdmin)
-        + ", " + nameof(RoleNames.Admin)
-        + ", " + nameof(RoleNames.Teacher)
-        + ", " + nameof(RoleNames.Student);
+    public const string AccessLevel1 = nameof(RoleEnum.SuperAdmin)
+        + ", " + nameof(RoleEnum.Admin)
+        + ", " + nameof(RoleEnum.Teacher)
+        + ", " + nameof(RoleEnum.Student);
 
     /// <summary>
     /// Access level for every staff member
     /// </summary>
-    public const string AccessLevel2 = nameof(RoleNames.SuperAdmin)
-        + ", " + nameof(RoleNames.Admin)
-        + ", " + nameof(RoleNames.Teacher);
+    public const string AccessLevel2 = nameof(RoleEnum.SuperAdmin)
+        + ", " + nameof(RoleEnum.Admin)
+        + ", " + nameof(RoleEnum.Teacher);
 
     /// <summary>
     /// Access level only for administration
     /// </summary>
-    public const string AccessLevel3 = nameof(RoleNames.SuperAdmin)
-        + ", " + nameof(RoleNames.Admin);
+    public const string AccessLevel3 = nameof(RoleEnum.SuperAdmin)
+        + ", " + nameof(RoleEnum.Admin);
 }
