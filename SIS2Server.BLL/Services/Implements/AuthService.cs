@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using SIS2Server.BLL.DTO.UserRelatedDTO;
-using SIS2Server.BLL.Exceptions;
+using SIS2Server.BLL.Exceptions.Auth;
+using SIS2Server.BLL.ExternalServices.Interfaces;
 using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Constants;
 using SIS2Server.Core.Entities.UserRelated;
@@ -11,11 +13,18 @@ public class AuthService : IAuthService
 {
     UserManager<AppUser> _userManager { get; }
     RoleManager<IdentityRole> _roleManager { get; }
+    IHttpContextAccessor _context { get; }
+    IEmailService _emailService { get; }
 
-    public AuthService(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+    public AuthService(UserManager<AppUser> userManager,
+        RoleManager<IdentityRole> roleManager,
+        IHttpContextAccessor context,
+        IEmailService emailService)
     {
         this._userManager = userManager;
         this._roleManager = roleManager;
+        this._context = context;
+        this._emailService = emailService;
     }
 
     public async Task CreateRoles()
@@ -30,19 +39,30 @@ public class AuthService : IAuthService
         }
     }
 
-    public async Task<bool> Register(RegisterDto dto)
+    public async Task Register(RegisterDto dto)
     {
         AppUser user = dto.GetEntity();
 
         var result = await this._userManager.CreateAsync(user, dto.Password);
-        if (!result.Succeeded) throw new UsernameOrEmailExistException();
+        if (!result.Succeeded) throw new UserExistException();
 
         //result = 
         await this._userManager.AddToRoleAsync(user, nameof(ConstRoles.RoleEnum.User));
         //if (!result.Succeeded) return false;
 
-        //this.SendConfirmation(await AppUserDto.Create(user, this._userManager));
 
-        return true;
+        string confirmationLink = this._context.HttpContext?.ToString();
+        this._emailService.Send(dto.Email, "Welcome to club buddy", confirmationLink, false);
     }
+
+    public void ConfirmRegistration(string confirmation)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<string> Login(LoginDto dto)
+    {
+        throw new NotImplementedException();
+    }
+
 }

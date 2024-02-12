@@ -4,9 +4,9 @@ namespace SIS2Server.BLL.Services.Interfaces;
 
 public interface IAuthService
 {
-    public Task<bool> Register(RegisterDto dto);
-    //public Task<TokenDto> Login(LoginDto dto);
-    //public void SendConfirmation(LoginDto dto);
+    public Task Register(RegisterDto dto);
+    public void ConfirmRegistration(string confirmation);
+    public Task<string> Login(LoginDto dto);
     //public Task<bool> ConfirmEmail(string token, bool skipValidation = true);
     public Task CreateRoles();
 }

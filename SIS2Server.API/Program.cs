@@ -22,12 +22,12 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        
+        app.UseAuthentication();
         app.UseAuthorization();
-
 
         app.MapControllers();
 
         app.Run();
+
     }
 }
