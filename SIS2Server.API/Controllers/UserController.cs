@@ -30,6 +30,13 @@ public class UserController : ControllerBase
         return Ok(dto);
     }
 
+    // POST api/<UserController>/Register
+    [HttpGet("ConfirmRegistration")]
+    public IActionResult Get(string token)
+    {
+        return Ok();
+    }
+
     // PUT api/<UserController>/5
     [HttpPut("{id}")]
     public void Put(int id, [FromBody] string value)

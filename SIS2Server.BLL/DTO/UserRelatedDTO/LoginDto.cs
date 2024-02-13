@@ -17,4 +17,7 @@ public class LoginDto : IBaseDto<AppUser>
     {
         throw new NotImplementedException();
     }
+
+    public static implicit operator LoginDto(RegisterDto dto)
+        => new() { Password = dto.Password, UserNameOrEmail = dto.UserName };
 }
