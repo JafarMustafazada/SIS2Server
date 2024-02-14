@@ -16,4 +16,18 @@ public static class ValidatorExtensions
         return ruleBuilder.GreaterThan(Minimum).WithMessage("Mamont!").
             LessThan(Maximum).WithMessage("dodagindaki sudun quruyanda gelersen");
     }
+
+    public static bool HasUpperLower(this string test)
+    {
+        byte checker = 0;
+
+        foreach (char c in test)
+        {
+            if (Char.IsLower(c)) checker |= 1;
+            if (Char.IsUpper(c)) checker |= 2;
+            if (checker == 3) return true;
+        }
+
+        return false;
+    }
 }

@@ -1,7 +1,11 @@
-﻿namespace SIS2Server.Core.Entities.SubjectRelated;
+﻿using SIS2Server.Core.Common;
 
-public class Faculty
+namespace SIS2Server.Core.Entities.SubjectRelated;
+
+public class Faculty : BaseEntity
 {
+    public string Name { get; set; }
+
     // //
     public IEnumerable<Group>? Groups { get; set; }
 }

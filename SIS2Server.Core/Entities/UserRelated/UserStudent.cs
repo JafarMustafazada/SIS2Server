@@ -1,6 +1,8 @@
-﻿namespace SIS2Server.Core.Entities.UserRelated;
+﻿using SIS2Server.Core.Common;
 
-public class UserStudent
+namespace SIS2Server.Core.Entities.UserRelated;
+
+public class UserStudent : BaseEntity
 {
     public int StudentId { get; set; }
     public string AppUserId { get; set; }

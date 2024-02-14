@@ -1,5 +1,7 @@
-﻿namespace SIS2Server.Core.Entities.ClassRelated;
+﻿using SIS2Server.Core.Common;
 
-public class Building
+namespace SIS2Server.Core.Entities.ClassRelated;
+
+public class Building : BaseEntity
 {
 }

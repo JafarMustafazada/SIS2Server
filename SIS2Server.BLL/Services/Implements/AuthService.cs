@@ -17,31 +17,34 @@ public class AuthService : IAuthService
     IHttpContextAccessor _context { get; }
     IEmailService _emailService { get; }
     IConfiguration _configuration { get; }
+    ITokenService _tokenService { get; }
 
     public AuthService(UserManager<AppUser> userManager,
         RoleManager<IdentityRole> roleManager,
         IHttpContextAccessor context,
         IEmailService emailService,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        ITokenService tokenService)
     {
         this._userManager = userManager;
         this._roleManager = roleManager;
         this._context = context;
         this._emailService = emailService;
         this._configuration = configuration;
+        this._tokenService = tokenService;
     }
 
-    public async Task CreateRoles()
-    {
-        foreach (string item in Enum.GetNames<ConstRoles.RoleEnum>())
-        {
-            if (!await this._roleManager.RoleExistsAsync(item))
-            {
-                var result = await this._roleManager.CreateAsync(new IdentityRole(item));
-                if (!result.Succeeded) return; //throw 
-            }
-        }
-    }
+    //public async Task CreateRoles()
+    //{
+    //    foreach (string item in Enum.GetNames<ConstRoles.RoleEnum>())
+    //    {
+    //        if (!await this._roleManager.RoleExistsAsync(item))
+    //        {
+    //            var result = await this._roleManager.CreateAsync(new IdentityRole(item));
+    //            if (!result.Succeeded) return; //throw 
+    //        }
+    //    }
+    //}
 
     public async Task Register(RegisterDto dto)
     {
@@ -55,7 +58,7 @@ public class AuthService : IAuthService
         //if (!result.Succeeded) return false;
 
         string confirmationLink = "http://" + this._context.HttpContext.Request.Host.Value 
-            + this._configuration["CustomEP:ConfirmationLink"] + "token";
+            + this._configuration["CustomEP:ConfirmationLink"] + this._tokenService.CreateUserToken(user);
 
         this._emailService.Send(dto.Email, "Welcome to club buddy", this.HtmlTemplate(confirmationLink), true);
     }

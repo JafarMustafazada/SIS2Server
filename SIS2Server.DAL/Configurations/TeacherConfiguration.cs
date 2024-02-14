@@ -12,7 +12,8 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.ConfigurePerson();
 
         builder.Property(e => e.Salary)
-            .IsRequired();
+            .IsRequired()
+            .HasColumnType("DECIMAL(19,4)");
         builder.Property(e => e.Proficiency)
             .IsRequired()
             .HasMaxLength(32);

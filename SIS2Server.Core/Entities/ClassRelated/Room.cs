@@ -1,5 +1,7 @@
-﻿namespace SIS2Server.Core.Entities.ClassRelated;
+﻿using SIS2Server.Core.Common;
 
-public class Room
+namespace SIS2Server.Core.Entities.ClassRelated;
+
+public class Room : BaseEntity
 {
 }

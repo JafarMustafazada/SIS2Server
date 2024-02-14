@@ -8,6 +8,9 @@ namespace SIS2Server.BLL.ExternalServices.Interfaces;
 public interface ITokenService
 {
     string CreateUserToken(AppUser user);
+    Task<bool> VakidateToken(string token);
+
+    // //
     static TokenValidationParameters TokenValidator(Dictionary<string, string> parameters)
     {
         return new()

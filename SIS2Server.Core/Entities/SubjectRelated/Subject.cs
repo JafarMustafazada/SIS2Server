@@ -1,5 +1,7 @@
-﻿namespace SIS2Server.Core.Entities.SubjectRelated;
+﻿using SIS2Server.Core.Common;
 
-public class Subject
+namespace SIS2Server.Core.Entities.SubjectRelated;
+
+public class Subject : BaseEntity
 {
 }

@@ -1,6 +1,8 @@
-﻿namespace SIS2Server.Core.Entities.SubjectRelated;
+﻿using SIS2Server.Core.Common;
 
-public class Score
+namespace SIS2Server.Core.Entities.SubjectRelated;
+
+public class Score : BaseEntity
 {
 
 }
