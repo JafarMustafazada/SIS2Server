@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SIS2Server.BLL.Extensions;
 using SIS2Server.BLL.Repositories.Interfaces;
 using SIS2Server.Core.Common;
 using SIS2Server.DAL.Contexts;
@@ -19,7 +20,7 @@ public class GenericRepo<T> : IGenericRepo<T> where T : BaseEntity
 
     // //
     public IQueryable<T> GetAll(bool noTracking = true, params string[] includes)
-        => noTracking ? this.Include(this.Table.AsNoTracking(), includes) : this.Include(this.Table, includes);
+        => noTracking ? this.Table.AsNoTracking().Includes(includes) : this.Table.Includes(includes);
 
     public async Task<bool> IsExistAsync(Expression<Func<T, bool>> expression)
     {
@@ -41,20 +42,9 @@ public class GenericRepo<T> : IGenericRepo<T> where T : BaseEntity
         if (noTracking || includes != null)
         {
             IQueryable<T> query = noTracking ? this.Table.AsNoTracking() : this.Table;
-            return await Include(query, includes).SingleOrDefaultAsync(t => t.Id == id);
+            return await query.Includes(includes).SingleOrDefaultAsync(t => t.Id == id);
         }
         return await this.Table.FindAsync(id);
-    }
-    public IQueryable<T> Include(IQueryable<T> query, params string[] includes)
-    {
-        if (includes?.Length > 0)
-        {
-            foreach (string include in includes)
-            {
-                query = query.Include(include);
-            }
-        }
-        return query;
     }
 
     public void Remove(T data, bool soft = true)

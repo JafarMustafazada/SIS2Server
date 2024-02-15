@@ -8,6 +8,11 @@ public class Group : BaseEntity
     public int FacultyId { get; set; }
 
     // //
+    public string Name { get; set; }
+    public int CurrentSemester { get; set; }
+
+    // //
     public Faculty? Faculty { get; set; }
     public IEnumerable<Student>? Students { get; set; }
+    public IEnumerable<StudentGroupHistory>? StudentGroupHistories { get; set; }
 }

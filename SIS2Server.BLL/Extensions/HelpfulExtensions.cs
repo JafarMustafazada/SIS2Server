@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text;
 
@@ -17,7 +18,7 @@ public static class HelpfulExtensions
         return sb.ToString().Trim();
     }
 
-    // //
+    // // this one is actually useless 
     public static bool HasUpperLower(this string test)
     {
         byte checker = 0;
@@ -35,4 +36,17 @@ public static class HelpfulExtensions
     // //
     public static Claim GetClaim(this IEnumerable<Claim> claims, string type)
         => claims.First(c => c.Type == type);
+
+    // //
+    public static IQueryable<T> Includes<T>(this IQueryable<T> query, params string[] includes) where T : class
+    {
+        if (includes?.Length > 0)
+        {
+            foreach (string include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+        return query;
+    }
 }

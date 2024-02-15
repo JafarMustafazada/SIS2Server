@@ -1,9 +1,10 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using SIS2Server.BLL.DTO.Common;
 using SIS2Server.BLL.Extensions;
 using SIS2Server.Core.Entities.UserRelated;
 
-namespace SIS2Server.BLL.DTO.UserRelatedDTO;
+namespace SIS2Server.BLL.DTO.UserDTO;
 
 public class RegisterDto : IBaseDto<AppUser>
 {
@@ -12,19 +13,15 @@ public class RegisterDto : IBaseDto<AppUser>
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
 
-    public AppUser GetEntity()
+    // //
+    public AppUser GetEntity(DbSet<AppUser> table = null)
     {
         return new()
         {
-            UserName = this.UserName,
-            Email = this.Email,
-            PhoneNumber = this.PhoneNumber,
+            UserName = UserName,
+            Email = Email,
+            PhoneNumber = PhoneNumber,
         };
-    }
-
-    public void SetEntity(AppUser entity)
-    {
-        throw new NotImplementedException();
     }
 }
 
@@ -35,13 +32,18 @@ public class RegisterDtoValidator : AbstractValidator<RegisterDto>
         RuleFor(x => x.UserName)
             .NotNullOrEmpty()
             .CustomLength(2, 32);
+
         RuleFor(x => x.Email)
             .NotNullOrEmpty()
             .EmailAddress();
+
+        RuleFor(x => x.PhoneNumber)
+            .NotNullOrEmpty();
+
         RuleFor(x => x.Password)
             .NotNullOrEmpty()
             .MinimumLength(4)
             .Must(x => x.HasUpperLower())
-            .Must(x => x.Any(Char.IsDigit));
+            .Must(x => x.Any(char.IsDigit));
     }
 }

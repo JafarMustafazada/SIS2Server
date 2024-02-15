@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SIS2Server.BLL.DTO.UserRelatedDTO;
+using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.BLL.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,6 +24,7 @@ public class UserController : ControllerBase
         await this._authService.Register(dto);
         return Ok();
     }
+
     // POST api/<UserController>/Login
     [HttpPost("Login")]
     public async Task<string> Post([FromBody] LoginDto dto)
@@ -40,14 +41,14 @@ public class UserController : ControllerBase
     }
 
     // PUT api/<UserController>/jhonny
-    [HttpPut("{userName}")]
-    public void Put(string userName, [FromBody] string newEmail)
-    {
-    }
+    //[HttpPut("{userName}")]
+    //public void Put(string userName, [FromBody] string newEmail)
+    //{
+    //}
 
     // DELETE api/<UserController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id)
-    {
-    }
+    //[HttpDelete("{id}")]
+    //public void Delete(int id)
+    //{
+    //}
 }

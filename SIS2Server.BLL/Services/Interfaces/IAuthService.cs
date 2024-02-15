@@ -1,4 +1,4 @@
-﻿using SIS2Server.BLL.DTO.UserRelatedDTO;
+﻿using SIS2Server.BLL.DTO.UserDTO;
 
 namespace SIS2Server.BLL.Services.Interfaces;
 

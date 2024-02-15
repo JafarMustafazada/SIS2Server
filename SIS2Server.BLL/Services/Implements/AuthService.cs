@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using SIS2Server.BLL.DTO.UserRelatedDTO;
+using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.BLL.Exceptions.Auth;
 using SIS2Server.BLL.Extensions;
 using SIS2Server.BLL.ExternalServices.Interfaces;

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SIS2Server.BLL.DTO.UserRelatedDTO;
+using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.BLL.Exceptions.Auth;
 using SIS2Server.BLL.ExternalServices.Implements;
 using SIS2Server.BLL.ExternalServices.Interfaces;
@@ -108,12 +108,6 @@ public static class FeatureAddingExtensions
 
         return services;
     }
-    public static IServiceCollection AddSisDtoValidators(this IServiceCollection services)
-    {
-        services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<RegisterDtoValidator>());
-
-        return services;
-    }
     public static IServiceCollection AddSisTokenAuth(this IServiceCollection services, Dictionary<string, string> parameters)
     {
         services.AddAuthentication(options =>
@@ -126,6 +120,12 @@ public static class FeatureAddingExtensions
             options.TokenValidationParameters = ITokenService.TokenValidator(parameters);
         });
         services.AddAuthorization();
+
+        return services;
+    }
+    public static IServiceCollection AddSisDtoValidators(this IServiceCollection services)
+    {
+        services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<RegisterDtoValidator>());
 
         return services;
     }

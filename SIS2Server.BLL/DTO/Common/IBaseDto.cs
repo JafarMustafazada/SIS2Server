@@ -1,7 +1,24 @@
-﻿namespace SIS2Server.BLL.DTO.Common;
+﻿using Microsoft.EntityFrameworkCore;
 
-public interface IBaseDto<TEntity>
+namespace SIS2Server.BLL.DTO.Common;
+
+public interface IBaseDto<TEntity> where TEntity : class
 {
-    void SetEntity(TEntity entity);
-    TEntity GetEntity();
+    public bool HasGetter 
+    { 
+        get
+        {
+            try
+            {
+                this.GetEntity();
+            }
+            catch (NotImplementedException)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+
+    TEntity GetEntity(DbSet<TEntity> table = null);
 }

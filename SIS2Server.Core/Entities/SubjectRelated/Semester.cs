@@ -2,7 +2,10 @@
 
 namespace SIS2Server.Core.Entities.SubjectRelated;
 
-public class Score : BaseEntity
+public class Semester : BaseEntity
 {
+    public int FacultyId { get; set; }
+
+    // //
 
 }

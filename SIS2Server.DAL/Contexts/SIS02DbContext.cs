@@ -23,7 +23,7 @@ public class SIS02DbContext : IdentityDbContext<AppUser>
     // //
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<Group> Groups { get; set; }
-    public DbSet<Score> Scores { get; set; }
+    public DbSet<StudentSemesterSubject> Scores { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     // //
     public DbSet<Building> Buildings { get; set; }
