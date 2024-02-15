@@ -12,7 +12,7 @@ public class StudentController : ControllerBase
 {
     // GET: api/<StudentController>
     [HttpGet]
-    //[Authorize(Roles = Roles.AccessLevel2)]
+    [Authorize(Roles = ConstRoles.AccessLevel2)]
     public IEnumerable<string> Get(string group = "-", string sort = "asc")
     {
         return new string[] { group, sort };

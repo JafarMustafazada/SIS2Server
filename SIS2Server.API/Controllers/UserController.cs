@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SIS2Server.BLL.DTO.UserRelatedDTO;
+using SIS2Server.BLL.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,37 +10,38 @@ namespace SIS2Server.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    // GET: api/<UserController>
-    [HttpGet]
-    public IEnumerable<string> Get()
-    {
-        return new string[] { "value1", "value2" };
-    }
+    IAuthService _authService {  get; }
 
-    // GET api/<UserController>/5
-    [HttpGet("{id}")]
-    public string Get(int id)
+    public UserController(IAuthService authService)
     {
-        return "value";
+        this._authService = authService;
     }
 
     // POST api/<UserController>/Register
     [HttpPost("Register")]
-    public IActionResult Post([FromBody] RegisterDto dto)
+    public async Task<IActionResult> Post([FromBody] RegisterDto dto)
     {
-        return Ok(dto);
-    }
-
-    // POST api/<UserController>/Register
-    [HttpGet("ConfirmRegistration")]
-    public IActionResult Get(string token)
-    {
+        await this._authService.Register(dto);
         return Ok();
     }
+    // POST api/<UserController>/Login
+    [HttpPost("Login")]
+    public async Task<string> Post([FromBody] LoginDto dto)
+    {
+        return await this._authService.Login(dto);
+    }
 
-    // PUT api/<UserController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value)
+    // POST api/<UserController>/ConfirmRegistration
+    [HttpGet("ConfirmRegistration")]
+    public async Task<IActionResult> Get(string token)
+    {
+        if (await this._authService.ConfirmRegistration(token)) return Ok();
+        else return Problem();
+    }
+
+    // PUT api/<UserController>/jhonny
+    [HttpPut("{userName}")]
+    public void Put(string userName, [FromBody] string newEmail)
     {
     }
 

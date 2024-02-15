@@ -20,12 +20,11 @@ public class EmailService : IEmailService
 
             Client.EnableSsl = true;
 
-            Client.Credentials = new NetworkCredential(
-                configuration["Email:Username"] + '@' + 
-                configuration["Email:Domain"],
-                configuration["Email:Password"]);
+            string email = configuration["Email:Username"] + '@' + configuration["Email:Domain"];
 
-            Support = new MailAddress(configuration["Email:Username"], "Enderg Fun Games");
+            Client.Credentials = new NetworkCredential(email, configuration["Email:Password"]);
+
+            Support = new MailAddress(email, "Enderg Fun Games");
 
             EmailService.NeedUpdate = false;
         }

@@ -40,4 +40,9 @@ public class TokenService : ITokenService
         var result = await handler.ValidateTokenAsync(token, ITokenService.TokenValidator(this._parameters));
         return result.IsValid;
     }
+
+    public IEnumerable<Claim> GetClaims(string token)
+    {
+        return new JwtSecurityTokenHandler().ReadJwtToken(token).Claims;
+    }
 }

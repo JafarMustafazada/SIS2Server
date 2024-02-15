@@ -16,22 +16,11 @@ using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Constants;
 using SIS2Server.Core.Entities.UserRelated;
 using SIS2Server.DAL.Contexts;
-using System.Text;
 
 namespace SIS2Server.BLL.Extensions;
 
 public static class FeatureAddingExtensions
 {
-    public static string ParseDescriptions(this IEnumerable<IdentityError> errors)
-    {
-        StringBuilder sb = new();
-        foreach (IdentityError error in errors)
-        {
-            sb.Append(error.Description);
-            sb.Append(Environment.NewLine);
-        }
-        return sb.ToString().Trim();
-    }
     static async Task CreateRoles(RoleManager<IdentityRole> roleManager, string[] roles)
     {
         foreach (string item in roles)
@@ -142,10 +131,10 @@ public static class FeatureAddingExtensions
     }
 
     // //
-    public static IServiceCollection AddSisServiceCollection(this IServiceCollection services, IConfiguration configuration)
-    {
+    //public static IServiceCollection AddSisServiceCollection(this IServiceCollection services, IConfiguration configuration)
+    //{
 
 
-        return services;
-    }
+    //    return services;
+    //}
 }

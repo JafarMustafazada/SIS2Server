@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using SIS2Server.BLL.DTO.UserRelatedDTO;
 using SIS2Server.BLL.Exceptions.Auth;
+using SIS2Server.BLL.Extensions;
 using SIS2Server.BLL.ExternalServices.Interfaces;
 using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Constants;
 using SIS2Server.Core.Entities.UserRelated;
+using System.Security.Claims;
 
 namespace SIS2Server.BLL.Services.Implements;
 
@@ -45,6 +47,14 @@ public class AuthService : IAuthService
     //        }
     //    }
     //}
+    void SendConfirmation(AppUser user)
+    {
+        string confirmationLink = "http://" + this._context.HttpContext.Request.Host.Value
+            + this._configuration["CustomEP:ConfirmationLink"] + this._tokenService.CreateUserToken(user);
+
+
+        this._emailService.Send(user.Email, "Welcome to club buddy", this.HtmlTemplate(confirmationLink), true);
+    }
 
     public async Task Register(RegisterDto dto)
     {
@@ -53,17 +63,13 @@ public class AuthService : IAuthService
         var result = await this._userManager.CreateAsync(user, dto.Password);
         if (!result.Succeeded) throw new UserExistException();
 
-        //result = 
-        await this._userManager.AddToRoleAsync(user, nameof(ConstRoles.RoleEnum.User));
-        //if (!result.Succeeded) return false;
+        result = await this._userManager.AddToRoleAsync(user, nameof(ConstRoles.RoleEnum.User));
+        if (!result.Succeeded) throw new RoleAddException(result.Errors.ParseDescriptions());
 
-        string confirmationLink = "http://" + this._context.HttpContext.Request.Host.Value 
-            + this._configuration["CustomEP:ConfirmationLink"] + this._tokenService.CreateUserToken(user);
-
-        this._emailService.Send(dto.Email, "Welcome to club buddy", this.HtmlTemplate(confirmationLink), true);
+        this.SendConfirmation(user);
     }
 
-    string HtmlTemplate(string link, string name= "Confirm Link")
+    string HtmlTemplate(string link, string name = "Confirm Link")
     {
         string tag = "<a href='" + link + "'>" + name + "</a>";
         string path = this._configuration["ConfirmationHtmlPath"];
@@ -93,12 +99,45 @@ public class AuthService : IAuthService
 
     public async Task<bool> ConfirmRegistration(string token)
     {
-        throw new NotImplementedException();
+        if (await this._tokenService.VakidateToken(token))
+        {
+            IEnumerable<Claim> claims = this._tokenService.GetClaims(token);
+
+            AppUser user = await this._userManager.FindByNameAsync(claims.GetClaim("UserName").Value);
+            if (user == null || user.Email != claims.GetClaim("Email").Value)
+                throw new InvalidLoginException();
+
+            user.EmailConfirmed = true;
+            await this._userManager.UpdateAsync(user);
+
+            return true;
+        }
+        else return false;
     }
 
-    public Task<string> Login(LoginDto dto)
+    public async Task<string> Login(LoginDto dto)
     {
-        throw new NotImplementedException();
+        AppUser user;
+
+        if (dto.UserNameOrEmail.Contains('@'))
+        {
+            user = await this._userManager.FindByEmailAsync(dto.UserNameOrEmail);
+        }
+        else
+        {
+            user = await this._userManager.FindByNameAsync(dto.UserNameOrEmail);
+        }
+
+        if (user == null || !(await this._userManager.CheckPasswordAsync(user, dto.Password)))
+            throw new InvalidLoginException();
+
+        if (!user.EmailConfirmed)
+        {
+            this.SendConfirmation(user);
+            throw new EmailNotConfirmedException();
+        }
+
+        return this._tokenService.CreateUserToken(user);
     }
 
 }

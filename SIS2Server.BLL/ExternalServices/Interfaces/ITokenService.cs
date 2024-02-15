@@ -1,6 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
-using SIS2Server.BLL.DTO.UserRelatedDTO;
 using SIS2Server.Core.Entities.UserRelated;
+using System.Security.Claims;
 using System.Text;
 
 namespace SIS2Server.BLL.ExternalServices.Interfaces;
@@ -9,6 +9,7 @@ public interface ITokenService
 {
     string CreateUserToken(AppUser user);
     Task<bool> VakidateToken(string token);
+    IEnumerable<Claim> GetClaims(string token);
 
     // //
     static TokenValidationParameters TokenValidator(Dictionary<string, string> parameters)
