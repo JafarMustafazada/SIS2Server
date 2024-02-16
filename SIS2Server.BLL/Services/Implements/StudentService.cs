@@ -1,32 +1,56 @@
 ﻿using SIS2Server.BLL.DTO.StudentDTO;
+using SIS2Server.BLL.Repositories.Interfaces;
 using SIS2Server.BLL.Services.Interfaces;
+using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.BLL.Services.Implements;
 
 public class StudentService : IStudentService
 {
-    public Task CreateAsync(StudentFullDto dto)
+    IStudentRepo _repo { get; }
+
+    public StudentService(IStudentRepo studentRepo)
     {
-        throw new NotImplementedException();
+        this._repo = studentRepo;
     }
 
-    public IEnumerable<StudentGeneralDto> GetAll()
+    // //
+    public async Task CreateAsync(StudentCreateDto dto)
     {
-        throw new NotImplementedException();
+        await this._repo.CreateAsync(dto.GetEntity());
+        await this._repo.SaveAsync();
     }
 
-    public Task<StudentGeneralDto> GetByGroupIdAsync(int id)
+    public IEnumerable<StudentGeneralDto> GetAll(string groupName = "-")
     {
-        throw new NotImplementedException();
+        if (groupName == "-")
+        {
+            return StudentGeneralDto.SetEntities(this._repo.GetAll());
+        }
+        else
+        {
+            return StudentGeneralDto.SetEntities(this._repo.GetAll().Where(x => x.Group.Name == groupName));
+        }
     }
 
-    public Task RemoveAsync(int id, bool soft = true)
+    public StudentFullDto GetById(int id)
     {
-        throw new NotImplementedException();
+        return StudentFullDto.SetEntities(this._repo.CheckId(id)).First();
     }
 
-    public Task UpdateAsync(int id, StudentFullDto dto)
+    public async Task RemoveAsync(int id, bool soft = true)
     {
-        throw new NotImplementedException();
+        Student entity = this._repo.CheckId(id, true).First();
+        this._repo.Remove(entity, soft);
+
+        await this._repo.SaveAsync();
+    }
+
+    public async Task UpdateAsync(int id, StudentCreateDto dto)
+    {
+        Student entity = this._repo.CheckId(id, true).First();
+        entity = dto.GetEntity(entity);
+
+        await this._repo.SaveAsync();
     }
 }

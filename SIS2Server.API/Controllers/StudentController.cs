@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SIS2Server.BLL.DTO.StudentDTO;
+using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Constants;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SIS2Server.API.Controllers;
 
@@ -10,40 +10,54 @@ namespace SIS2Server.API.Controllers;
 [ApiController]
 public class StudentController : ControllerBase
 {
+    IStudentService _service {  get; }
+
+    public StudentController(IStudentService service)
+    {
+        this._service = service;
+    }
+
+    // //
     // GET: api/<StudentController>
     [HttpGet]
     [Authorize(Roles = ConstRoles.AccessLevel2)]
-    public IEnumerable<string> Get(string group = "-", string sort = "asc")
+    public IActionResult Get(string groupName = "-")
     {
-        return new string[] { group, sort };
+        return Ok(this._service.GetAll(groupName));
     }
 
     // GET api/<StudentController>/5
     [HttpGet("{id}")]
-    [Authorize(Roles = ConstRoles.AccessLevel1)]
-    public string Get(int id)
+    [Authorize(Roles = ConstRoles.AccessLevel3)]
+    public IActionResult Get(int id)
     {
-        return "value";
+        return Ok(this._service.GetById(id));
     }
 
     // POST api/<StudentController>
     [HttpPost]
-    [Authorize(Roles = ConstRoles.AccessLevel3)]
-    public void Post([FromBody] string value)
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
+    public async Task<IActionResult> Post([FromBody] StudentCreateDto dto)
     {
+        await this._service.CreateAsync(dto);
+        return StatusCode(StatusCodes.Status201Created);
     }
 
     // PUT api/<StudentController>/5
     [HttpPut("{id}")]
     [Authorize(Roles = ConstRoles.AccessLevel2)]
-    public void Put(int id, [FromBody] string value)
+    public async Task<IActionResult> Put(int id, [FromBody] StudentCreateDto dto)
     {
+        await _service.UpdateAsync(id, dto);
+        return Ok();
     }
 
     // DELETE api/<StudentController>/5
     [HttpDelete("{id}")]
-    [Authorize(Roles = ConstRoles.AccessLevel3)]
-    public void Delete(int id)
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
+    public async Task<IActionResult> Delete(int id)
     {
+        await _service.RemoveAsync(id);
+        return Ok();
     }
 }

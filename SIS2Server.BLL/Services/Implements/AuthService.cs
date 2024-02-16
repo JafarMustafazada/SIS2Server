@@ -63,7 +63,7 @@ public class AuthService : IAuthService
         var result = await this._userManager.CreateAsync(user, dto.Password);
         if (!result.Succeeded) throw new UserExistException();
 
-        result = await this._userManager.AddToRoleAsync(user, nameof(ConstRoles.RoleEnum.User));
+        result = await this._userManager.AddToRoleAsync(user, nameof(ConstRoles.UserRoles.User));
         if (!result.Succeeded) throw new RoleAddException(result.Errors.ParseDescriptions());
 
         this.SendConfirmation(user);
@@ -140,4 +140,25 @@ public class AuthService : IAuthService
         return this._tokenService.CreateUserToken(user);
     }
 
+    public async Task<bool> ChangeUserRole(string username, ConstRoles.UserRoles role)
+    {
+        AppUser user = await this._userManager.FindByNameAsync(username) ?? throw new InvalidLoginException();
+
+        List<string> rolesToRemove = new List<string>();
+        foreach (string item in await this._userManager.GetRolesAsync(user))
+        {
+            if (Enum.IsDefined(typeof(ConstRoles.UserRoles), item))
+            {
+                rolesToRemove.Add(item);
+            }
+        }
+
+        IdentityResult result = await this._userManager.RemoveFromRolesAsync(user, rolesToRemove);
+        if (!result.Succeeded) throw new RoleRemoveException(result.Errors.ParseDescriptions());
+
+        result = await this._userManager.AddToRoleAsync(user, role.ToString());
+        if (!result.Succeeded) throw new RoleAddException(result.Errors.ParseDescriptions());
+
+        return true;
+    }
 }

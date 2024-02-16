@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SIS2Server.BLL.Exceptions.Common;
 using SIS2Server.BLL.Extensions;
 using SIS2Server.BLL.Repositories.Interfaces;
 using SIS2Server.Core.Common;
@@ -51,8 +52,30 @@ public class GenericRepo<T> : IGenericRepo<T> where T : BaseEntity
     {
         if (soft)
         {
-            data.IsActive = false;
+            data.IsActive = !data.IsActive;
             this.Table.Update(data);
         } else this.Table.Remove(data);
+    }
+
+    /// <summary>
+    /// Checks if there is only one entity with given id.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="isTrack"></param>
+    /// <returns>Querry of single entity with given id. Can be used with method "First()".</returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="NotFoundException{T}"></exception>
+    /// <exception cref="ManySameKeyException{T}"></exception>
+    public IQueryable<T> CheckId(int id, bool isTrack = false)
+    {
+        if (id <= 0) throw new ArgumentException();
+
+        IQueryable<T> data = isTrack ? this.Table.Where(x => x.Id == id) 
+            : this.Table.Where(x => x.Id == id).AsNoTracking();
+
+        int count = data.Count();
+        if (count < 1) throw new NotFoundException<T>();
+        else if (count != 1) throw new ManySameKeyException<T>();
+        else return data;
     }
 }

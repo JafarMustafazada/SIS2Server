@@ -20,6 +20,7 @@ public interface ITokenService
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
+            RoleClaimType = parameters["RoleClaim"],
 
             ValidIssuer = parameters["Issuer"],
             ValidAudience = parameters["Audience"],

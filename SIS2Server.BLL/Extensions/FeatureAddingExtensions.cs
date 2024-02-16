@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SIS2Server.BLL.DTO.StudentDTO;
 using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.BLL.Exceptions.Auth;
 using SIS2Server.BLL.ExternalServices.Implements;
@@ -35,7 +36,7 @@ public static class FeatureAddingExtensions
             }
         }
     }
-    static async Task CreateSuperAdmin(UserManager<AppUser> userManager, Dictionary<string, string> info)
+    static async Task CreateUser(UserManager<AppUser> userManager, string role, Dictionary<string, string> info)
     {
         if (await userManager.FindByNameAsync(info["UserName"]) == null)
         {
@@ -49,7 +50,7 @@ public static class FeatureAddingExtensions
             var result = await userManager.CreateAsync(user, info["Password"]);
             if (!result.Succeeded) throw new UserExistException(result.Errors.ParseDescriptions());
 
-            result = await userManager.AddToRoleAsync(user, nameof(ConstRoles.RoleEnum.SuperAdmin));
+            result = await userManager.AddToRoleAsync(user, role);
             if (!result.Succeeded) throw new RoleAddException(result.Errors.ParseDescriptions());
         }
     }
@@ -64,8 +65,11 @@ public static class FeatureAddingExtensions
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                await CreateRoles(roleManager, Enum.GetNames<ConstRoles.RoleEnum>());
-                await CreateSuperAdmin(userManager, app.Configuration.GetSection("SuperAdmin").Get<Dictionary<string, string>>());
+                await CreateRoles(roleManager, Enum.GetNames<ConstRoles.UserRoles>());
+                await CreateRoles(roleManager, Enum.GetNames<ConstRoles.EducationRoles>());
+
+                await CreateUser(userManager, nameof(ConstRoles.UserRoles.SuperAdmin), 
+                    app.Configuration.GetSection("SuperAdmin").Get<Dictionary<string, string>>());
             }
 
             await next();
@@ -81,6 +85,7 @@ public static class FeatureAddingExtensions
         services.AddScoped<ITokenService, TokenService>();
 
         services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IStudentService, StudentService>();
 
         return services;
     }
@@ -126,6 +131,7 @@ public static class FeatureAddingExtensions
     public static IServiceCollection AddSisDtoValidators(this IServiceCollection services)
     {
         services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<RegisterDtoValidator>());
+        services.AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<StudentCreateDtoValidator>());
 
         return services;
     }

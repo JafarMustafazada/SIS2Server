@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SIS2Server.BLL.Extensions;
 
@@ -18,7 +19,7 @@ public static class HelpfulExtensions
         return sb.ToString().Trim();
     }
 
-    // // this one is actually useless 
+    // // this one is actually useless and only time consuming
     public static bool HasUpperLower(this string test)
     {
         byte checker = 0;
@@ -31,6 +32,21 @@ public static class HelpfulExtensions
         }
 
         return false;
+    }
+    public static Dictionary<string, string> ParseRawQuerry(this string raw)
+    {
+        Dictionary<string, string> parsed = [];
+
+        foreach (string item in raw.Split('&'))
+        {
+            int index = item.IndexOf('=');
+            if (index < 0) break;
+            string key = item[..index++];
+
+            parsed[key] = item.Length > index ? item[index..] : "";
+        }
+
+        return parsed;
     }
 
     // //

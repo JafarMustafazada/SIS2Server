@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using SIS2Server.BLL.DTO.Common;
+using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.BLL.DTO.StudentDTO;
@@ -22,7 +24,6 @@ public class StudentFullDto : IBaseDto<Student>
     public bool Gender { get; set; } = true;
     public DateTime Birthday { get; set; }
 
-    // //
     public DateOnly Entered { get; set; }
     public DateOnly Graduation { get; set; }
     public string Nationality { get; set; }

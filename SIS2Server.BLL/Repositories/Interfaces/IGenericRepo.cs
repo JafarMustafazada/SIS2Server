@@ -13,4 +13,5 @@ public interface IGenericRepo<T> where T : BaseEntity
     Task CreateAsync(T data);
     void Remove(T data, bool soft = true);
     Task SaveAsync();
+    IQueryable<T> CheckId(int id, bool isTrack = false);
 }

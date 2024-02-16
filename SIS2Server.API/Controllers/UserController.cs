@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.BLL.Services.Interfaces;
+using SIS2Server.Core.Constants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,12 +34,21 @@ public class UserController : ControllerBase
         return await this._authService.Login(dto);
     }
 
-    // POST api/<UserController>/ConfirmRegistration
+    // GET api/<UserController>/ConfirmRegistration
     [HttpGet("ConfirmRegistration")]
     public async Task<IActionResult> Get(string token)
     {
         if (await this._authService.ConfirmRegistration(token)) return Ok();
         else return Problem();
+    }
+
+    // GET api/<UserController>/ConfirmRegistration
+    [HttpGet("ChangeUserRole")]
+    [Authorize(Roles = ConstRoles.AccessLevel0)]
+    public async Task<IActionResult> Get(string username, ConstRoles.UserRoles role)
+    {
+        await this._authService.ChangeUserRole(username, role);
+        return Ok();
     }
 
     // PUT api/<UserController>/jhonny
