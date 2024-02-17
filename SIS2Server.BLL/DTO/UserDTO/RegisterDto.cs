@@ -14,14 +14,15 @@ public class RegisterDto : IBaseDto<AppUser>
     public string PhoneNumber { get; set; }
 
     // //
-    public AppUser GetEntity(DbSet<AppUser> table = null)
+    public AppUser GetEntity(AppUser entity = null)
     {
-        return new()
-        {
-            UserName = UserName,
-            Email = Email,
-            PhoneNumber = PhoneNumber,
-        };
+        entity ??= new();
+
+        entity.UserName = UserName;
+        entity.Email = Email;
+        entity.PhoneNumber = PhoneNumber;
+
+        return entity;
     }
 }
 

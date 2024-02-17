@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SIS2Server.BLL.DTO.Common;
+using SIS2Server.BLL.DTO.FamilyMmemberDTO;
 using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.BLL.DTO.StudentDTO;
 
-public class StudentFullDto : IBaseDto<Student>
+public class StudentDto : IBaseDto<Student>
 {
     public int Id { get; set; }
     public int GroupId { get; set; }
@@ -28,16 +29,20 @@ public class StudentFullDto : IBaseDto<Student>
     public DateOnly Graduation { get; set; }
     public string Nationality { get; set; }
 
+    IEnumerable<FamilyMmemberDto> FamilyMmembers { get; set; }
+
+
     // //
-    public Student GetEntity(DbSet<Student> table = null)
+    public Student GetEntity(Student entity = null)
     {
         throw new NotImplementedException();
     }
 
     // //
-    public static IEnumerable<StudentFullDto> SetEntities(IQueryable<Student> querry)
+    public static IEnumerable<StudentDto> SetEntities(IQueryable<Student> querry)
     {
-        return querry.Include(e => e.Group).ThenInclude(e2 => e2.Faculty).Select(e => new StudentFullDto()
+        return querry.Include(e => e.FamilyMembers).ThenInclude(e3 => e3.FamilyReletaion)
+        .Include(e => e.Group).ThenInclude(e2 => e2.Faculty).Select(e => new StudentDto()
         {
             Id = e.Id,
             GroupId = e.GroupId,
@@ -57,6 +62,7 @@ public class StudentFullDto : IBaseDto<Student>
             Graduation = e.Graduation,
             Nationality = e.Nationality,
 
+            FamilyMmembers = FamilyMmemberDto.SetEntities(e),
         });
     }
 }

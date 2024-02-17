@@ -14,8 +14,10 @@ public class StudentGeneralDto : IBaseDto<Student>
     public virtual string Surname { get; set; }
     public virtual string Patronymic { get; set; }
 
+    public bool HaveChangedGroup { get; set; } = false;
+
     // //
-    public Student GetEntity(DbSet<Student> table = null)
+    public Student GetEntity(Student entity = null)
     {
         throw new NotImplementedException();
     }
@@ -23,7 +25,7 @@ public class StudentGeneralDto : IBaseDto<Student>
     // //
     public static IEnumerable<StudentGeneralDto> SetEntities(IQueryable<Student> querry)
     {
-        return querry.Include(e => e.Group).Select(e => new StudentGeneralDto()
+        return querry.Include(e => e.Group).Include(e => e.StudentGroupHistories).Select(e => new StudentGeneralDto()
         {
             Id = e.Id,
             GroupId = e.GroupId,
@@ -32,6 +34,8 @@ public class StudentGeneralDto : IBaseDto<Student>
             Name = e.Name,
             Surname = e.Surname,
             Patronymic = e.Patronymic,
+
+            HaveChangedGroup = e.StudentGroupHistories.Any(),
         });
     }
 }

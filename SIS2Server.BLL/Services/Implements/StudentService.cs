@@ -33,9 +33,9 @@ public class StudentService : IStudentService
         }
     }
 
-    public StudentFullDto GetById(int id)
+    public StudentDto GetById(int id)
     {
-        return StudentFullDto.SetEntities(this._repo.CheckId(id)).First();
+        return StudentDto.SetEntities(this._repo.CheckId(id)).First();
     }
 
     public async Task RemoveAsync(int id, bool soft = true)

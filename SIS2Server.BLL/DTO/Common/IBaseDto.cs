@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace SIS2Server.BLL.DTO.Common;
+﻿namespace SIS2Server.BLL.DTO.Common;
 
 public interface IBaseDto<TEntity> where TEntity : class
 {
@@ -20,5 +18,5 @@ public interface IBaseDto<TEntity> where TEntity : class
         }
     }
 
-    TEntity GetEntity(DbSet<TEntity> table = null);
+    TEntity GetEntity(TEntity entity = null);
 }

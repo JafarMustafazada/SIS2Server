@@ -9,7 +9,7 @@ public class LoginDto : IBaseDto<AppUser>
     public string UserNameOrEmail { get; set; }
     public string Password { get; set; }
 
-    public AppUser GetEntity(DbSet<AppUser> table = null)
+    public AppUser GetEntity(AppUser entity = null)
     {
         throw new NotImplementedException();
     }

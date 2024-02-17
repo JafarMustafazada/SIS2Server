@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using SIS2Server.BLL.DTO.Common;
 using SIS2Server.BLL.Extensions;
 using SIS2Server.Core.Entities.UserRelated;
@@ -23,33 +22,19 @@ public class StudentCreateDto : IBaseDto<Student>
     public string Nationality { get; set; }
 
     // //
-    public Student GetEntity(DbSet<Student> table = null)
+    public Student GetEntity(Student entity = null)
     {
-        return new()
-        {
-            GroupId = this.GroupId,
+        entity ??= new();
 
-            Name = this.Name,
-            Surname = this.Surname,
-            Patronymic = this.Patronymic,
-            PlaceOfLiving = this.PlaceOfLiving,
-            Gender = this.Gender,
-            Birthday = this.Birthday,
-
-            Entered = this.Entered,
-            Graduation = this.Graduation,
-            Nationality = this.Nationality,
-        };
-    }
-    public Student GetEntity(Student entity)
-    {
         entity.GroupId = this.GroupId;
+
         entity.Name = this.Name;
         entity.Surname = this.Surname;
         entity.Patronymic = this.Patronymic;
         entity.PlaceOfLiving = this.PlaceOfLiving;
         entity.Gender = this.Gender;
         entity.Birthday = this.Birthday;
+
         entity.Entered = this.Entered;
         entity.Graduation = this.Graduation;
         entity.Nationality = this.Nationality;

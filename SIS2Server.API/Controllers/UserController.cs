@@ -48,7 +48,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Get(string username, ConstRoles.UserRoles role)
     {
         await this._authService.ChangeUserRole(username, role);
-        return Ok();
+        return Ok(true);
     }
 
     // PUT api/<UserController>/jhonny

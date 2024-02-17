@@ -79,22 +79,6 @@ public static class FeatureAddingExtensions
     }
 
     // //
-    public static IServiceCollection AddSisServices(this IServiceCollection services)
-    {
-        services.AddScoped<IEmailService, EmailService>();
-        services.AddScoped<ITokenService, TokenService>();
-
-        services.AddScoped<IAuthService, AuthService>();
-        services.AddScoped<IStudentService, StudentService>();
-
-        return services;
-    }
-    public static IServiceCollection AddSisRepositories(this IServiceCollection services)
-    {
-        services.AddScoped<IStudentRepo, StudentRepo>();
-
-        return services;
-    }
     public static IServiceCollection AddSisIdentity(this IServiceCollection services, string connection)
     {
         services.AddDbContext<SIS02DbContext>(options =>
@@ -125,6 +109,25 @@ public static class FeatureAddingExtensions
             options.TokenValidationParameters = ITokenService.TokenValidator(parameters);
         });
         services.AddAuthorization();
+
+        return services;
+    }
+    public static IServiceCollection AddSisServices(this IServiceCollection services)
+    {
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<ITokenService, TokenService>();
+
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IStudentService, StudentService>();
+        services.AddScoped<IGroupService, GroupService>();
+
+
+        return services;
+    }
+    public static IServiceCollection AddSisRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IStudentRepo, StudentRepo>();
+        services.AddScoped<IGroupRepo, GroupRepo>();
 
         return services;
     }
