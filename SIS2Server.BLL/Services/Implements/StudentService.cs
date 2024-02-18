@@ -5,22 +5,16 @@ using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.BLL.Services.Implements;
 
-public class StudentService : IStudentService
+public class StudentService : GenericCUDService<Student, IStudentRepo, StudentCreateDto>, IStudentService
 {
     IStudentRepo _repo { get; }
 
-    public StudentService(IStudentRepo studentRepo)
+    public StudentService(IStudentRepo studentRepo) : base(studentRepo)
     {
         this._repo = studentRepo;
     }
 
     // //
-    public async Task CreateAsync(StudentCreateDto dto)
-    {
-        await this._repo.CreateAsync(dto.GetEntity());
-        await this._repo.SaveAsync();
-    }
-
     public IEnumerable<StudentGeneralDto> GetAll(string groupName = "-")
     {
         if (groupName == "-")
@@ -38,17 +32,13 @@ public class StudentService : IStudentService
         return StudentDto.SetEntities(this._repo.CheckId(id)).First();
     }
 
-    public async Task RemoveAsync(int id, bool soft = true)
-    {
-        Student entity = this._repo.CheckId(id, true).First();
-        this._repo.Remove(entity, soft);
-
-        await this._repo.SaveAsync();
-    }
-
     public async Task UpdateAsync(int id, StudentCreateDto dto)
     {
         Student entity = this._repo.CheckId(id, true).First();
+        if (entity.GroupId != dto.GroupId)
+        {
+            // TODO: complete student service
+        }
         entity = dto.GetEntity(entity);
 
         await this._repo.SaveAsync();

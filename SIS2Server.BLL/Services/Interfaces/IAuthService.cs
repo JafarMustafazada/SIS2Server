@@ -5,8 +5,9 @@ namespace SIS2Server.BLL.Services.Interfaces;
 
 public interface IAuthService
 {
-    public Task Register(RegisterDto dto);
-    public Task<bool> ConfirmRegistration(string confirmation);
-    public Task<string> Login(LoginDto dto);
-    public Task<bool> ChangeUserRole(string username, ConstRoles.UserRoles role);
+    Task Register(RegisterDto dto);
+    Task<bool> ConfirmRegistration(string confirmation);
+    Task<string> Login(LoginDto dto);
+    Task<bool> ChangeUserRole(string username, ConstRoles.UserRoles role);
+    Task<bool> ModifyEducationRole(string username, ConstRoles.EducationRoles role, int entityId);
 }

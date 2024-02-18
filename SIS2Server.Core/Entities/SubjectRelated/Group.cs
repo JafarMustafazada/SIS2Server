@@ -14,5 +14,5 @@ public class Group : BaseEntity
     // //
     public Faculty? Faculty { get; set; }
     public IEnumerable<Student>? Students { get; set; }
-    public IEnumerable<StudentGroupHistory>? StudentGroupHistories { get; set; }
+    public IEnumerable<StudentFormerGroup>? StudentFormerGroups { get; set; }
 }

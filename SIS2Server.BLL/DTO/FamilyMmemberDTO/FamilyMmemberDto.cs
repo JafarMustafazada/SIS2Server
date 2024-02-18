@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SIS2Server.BLL.DTO.Common;
-using SIS2Server.BLL.DTO.StudentDTO;
 using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.BLL.DTO.FamilyMmemberDTO;
@@ -27,22 +26,7 @@ public class FamilyMmemberDto : IBaseDto<FamilyMember>
     // //
     public FamilyMember GetEntity(FamilyMember entity = null)
     {
-        entity ??= new();
-
-        entity.StudentId = StudentId;
-        entity.FamilyReletaionId = RelationId;
-
-        entity.Name = Name;
-        entity.Surname = Surname;
-        entity.Gender = Gender;
-        entity.PlaceOfLiving = PlaceOfLiving;
-        entity.Birthday = Birthday;
-        entity.PlaceOfLiving = PlaceOfLiving;
-
-        entity.PhoneNumber = PhoneNumber;
-        entity.Email = Email;
-
-        return entity;
+        throw new NotImplementedException();
     }
 
     static FamilyMmemberDto SetEntity(FamilyMember item)
@@ -67,6 +51,22 @@ public class FamilyMmemberDto : IBaseDto<FamilyMember>
 
     public static IEnumerable<FamilyMmemberDto> SetEntities(IQueryable<FamilyMember> querry)
         => querry.Include(e => e.FamilyReletaion).Select(e => FamilyMmemberDto.SetEntity(e));
+
+    public static IEnumerable<FamilyMmemberDto> SetEntities(IQueryable<Student> querry)
+    {
+        IEnumerable<Student> entities = querry
+            .Include(e => e.FamilyMembers)
+            .ThenInclude(e2 => e2.FamilyReletaion)
+            .Select(e => e);
+
+        List<FamilyMmemberDto> dtos = [];
+        foreach (Student entity in entities)
+        {
+            dtos.AddRange(FamilyMmemberDto.SetEntities(entity));
+        }
+
+        return dtos;
+    }
 
     public static IEnumerable<FamilyMmemberDto> SetEntities(Student student)
     {

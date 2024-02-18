@@ -25,7 +25,7 @@ public class StudentGeneralDto : IBaseDto<Student>
     // //
     public static IEnumerable<StudentGeneralDto> SetEntities(IQueryable<Student> querry)
     {
-        return querry.Include(e => e.Group).Include(e => e.StudentGroupHistories).Select(e => new StudentGeneralDto()
+        return querry.Include(e => e.Group).Include(e => e.StudentFormerGroups).Select(e => new StudentGeneralDto()
         {
             Id = e.Id,
             GroupId = e.GroupId,
@@ -35,7 +35,7 @@ public class StudentGeneralDto : IBaseDto<Student>
             Surname = e.Surname,
             Patronymic = e.Patronymic,
 
-            HaveChangedGroup = e.StudentGroupHistories.Any(),
+            HaveChangedGroup = e.StudentFormerGroups.Any(),
         });
     }
 }

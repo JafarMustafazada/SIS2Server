@@ -161,4 +161,10 @@ public class AuthService : IAuthService
 
         return true;
     }
+
+    public Task<bool> ModifyEducationRole(string username, ConstRoles.EducationRoles role, int entityId)
+    {
+        // TODO: complete auth service
+        throw new NotImplementedException();
+    }
 }

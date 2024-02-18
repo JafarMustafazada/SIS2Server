@@ -51,6 +51,16 @@ public class UserController : ControllerBase
         return Ok(true);
     }
 
+    // GET api/<UserController>/ConfirmRegistration
+    [HttpGet("ModifyEducationRole")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
+    public async Task<IActionResult> Get(string username, ConstRoles.EducationRoles role, int entityId)
+    {
+        // TODO: complete user controller + getall in service
+        //await this._authService.ChangeUserRole(username, role);
+        return Ok(true);
+    }
+
     // PUT api/<UserController>/jhonny
     //[HttpPut("{userName}")]
     //public void Put(string userName, [FromBody] string newEmail)

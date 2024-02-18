@@ -8,4 +8,5 @@ public class Faculty : BaseEntity
 
     // //
     public IEnumerable<Group>? Groups { get; set; }
+    public IEnumerable<FacultySubject>? FacultySubjects { get; set; }
 }

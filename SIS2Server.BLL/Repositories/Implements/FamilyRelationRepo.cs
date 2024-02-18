@@ -4,6 +4,6 @@ using SIS2Server.DAL.Contexts;
 
 namespace SIS2Server.BLL.Repositories.Implements;
 
-public class StudentRepo(SIS02DbContext context) : GenericRepo<Student>(context), IStudentRepo
+public class FamilyRelationRepo(SIS02DbContext context) : GenericRepo<FamilyReletaion>(context), IFamilyRelationRepo
 {
 }

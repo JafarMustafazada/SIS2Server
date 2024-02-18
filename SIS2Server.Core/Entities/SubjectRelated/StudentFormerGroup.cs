@@ -1,9 +1,9 @@
 ﻿using SIS2Server.Core.Common;
-using SIS2Server.Core.Entities.SubjectRelated;
+using SIS2Server.Core.Entities.UserRelated;
 
-namespace SIS2Server.Core.Entities.UserRelated;
+namespace SIS2Server.Core.Entities.SubjectRelated;
 
-public class StudentGroupHistory : BaseEntity
+public class StudentFormerGroup : BaseEntity
 {
     public int StudentId { get; set; }
     public int GroupId { get; set; }

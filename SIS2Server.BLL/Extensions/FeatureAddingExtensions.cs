@@ -22,6 +22,16 @@ namespace SIS2Server.BLL.Extensions;
 
 public static class FeatureAddingExtensions
 {
+    //static async Task CreateEntities<TRepo, TEntity>(IEnumerable<TEntity> entities, TRepo repo) 
+    //    where TEntity : BaseEntity 
+    //    where TRepo : IGenericRepo<TEntity>
+    //{
+    //    foreach (var entity in entities)
+    //    {
+    //        await repo.CreateAsync(entity);
+    //    }
+    //    await repo.SaveAsync();
+    //}
     static async Task CreateRoles(RoleManager<IdentityRole> roleManager, string[] roles)
     {
         foreach (string item in roles)
@@ -64,12 +74,26 @@ public static class FeatureAddingExtensions
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var familyRepo = scope.ServiceProvider.GetRequiredService<IFamilyRelationRepo>();
 
                 await CreateRoles(roleManager, Enum.GetNames<ConstRoles.UserRoles>());
                 await CreateRoles(roleManager, Enum.GetNames<ConstRoles.EducationRoles>());
 
                 await CreateUser(userManager, nameof(ConstRoles.UserRoles.SuperAdmin), 
                     app.Configuration.GetSection("SuperAdmin").Get<Dictionary<string, string>>());
+
+                foreach (string item in Enum.GetNames<ConstFamilyReletaions>())
+                {
+                    if (await familyRepo.IsExistAsync(e => e.Name == item)) continue;
+
+                    FamilyReletaion entity = new()
+                    {
+                        Name = item,
+                    };
+
+                    await familyRepo.CreateAsync(entity);
+                    await familyRepo.SaveAsync();
+                }
             }
 
             await next();
@@ -120,7 +144,7 @@ public static class FeatureAddingExtensions
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IGroupService, GroupService>();
-
+        services.AddScoped<IFamilyService, FamilyService>();
 
         return services;
     }
@@ -128,6 +152,8 @@ public static class FeatureAddingExtensions
     {
         services.AddScoped<IStudentRepo, StudentRepo>();
         services.AddScoped<IGroupRepo, GroupRepo>();
+        services.AddScoped<IFamilyMemberRepo, FamilyMemberRepo>();
+        services.AddScoped<IFamilyRelationRepo, FamilyRelationRepo>();
 
         return services;
     }

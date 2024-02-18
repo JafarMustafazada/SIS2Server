@@ -70,12 +70,15 @@ public class GenericRepo<T> : IGenericRepo<T> where T : BaseEntity
     {
         if (id <= 0) throw new ArgumentException();
 
-        IQueryable<T> data = isTrack ? this.Table.Where(x => x.Id == id) 
-            : this.Table.Where(x => x.Id == id).AsNoTracking();
+        IQueryable<T> data = isTrack 
+            ? this.Table.Where(x => x.Id == id).Take(2) 
+            : this.Table.Where(x => x.Id == id).AsNoTracking().Take(2);
 
-        int count = data.Count();
-        if (count < 1) throw new NotFoundException<T>();
-        else if (count != 1) throw new ManySameKeyException<T>();
-        else return data;
+        return data.Count() switch
+        {
+            0 => throw new NotFoundException<T>(),
+            1 => data,
+            _ => throw new ManySameKeyException<T>(),
+        };
     }
 }

@@ -22,10 +22,12 @@ public class SIS02DbContext : IdentityDbContext<AppUser>
     public DbSet<UserTeacher> UserTeachers { get; set; }
 
     // //
+    public DbSet<StudentFormerGroup> StudentFormerGroups { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
+    public DbSet<FacultySubject> FacultySubjects { get; set; }
     public DbSet<Group> Groups { get; set; }
-    public DbSet<StudentSemesterSubject> Scores { get; set; }
     public DbSet<Subject> Subjects { get; set; }
+    public DbSet<TeacherSubject> TeacherSubjects { get; set; }
 
     // //
     //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
