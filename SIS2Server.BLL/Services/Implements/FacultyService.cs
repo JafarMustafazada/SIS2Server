@@ -1,26 +1,25 @@
-﻿using SIS2Server.BLL.DTO.GroupDTO;
+﻿using SIS2Server.BLL.DTO.FacultyDTO;
 using SIS2Server.BLL.Repositories.Interfaces;
 using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Entities.SubjectRelated;
 
 namespace SIS2Server.BLL.Services.Implements;
 
-public class GroupService : GenericCUDService<Group, IGroupRepo, GroupCreateDto>, IGroupService
+public class FacultyService : GenericCUDService<Faculty, IFacultyRepo, FacultyCreateDto>, IFacultyService
 {
-    IGroupRepo _repo { get; }
+    IFacultyRepo _repo { get; }
 
-    public GroupService(IGroupRepo repo) : base(repo)
+    public FacultyService(IFacultyRepo repo) : base(repo)
     {
         this._repo = repo;
     }
 
-    // //
-    public IEnumerable<GroupDto> GetAll()
+    public IEnumerable<FacultyGeneralDto> GetAll()
     {
         throw new NotImplementedException();
     }
 
-    public GroupDto GetById(int id)
+    public FacultyDto GetById(int id)
     {
         throw new NotImplementedException();
     }

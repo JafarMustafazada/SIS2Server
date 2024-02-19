@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SIS2Server.Core.Entities.UserRelated;
 using SIS2Server.Core.Entities.SubjectRelated;
 using System.Reflection;
+using SIS2Server.Core.Entities.StudentRelated;
 
 namespace SIS2Server.DAL.Contexts;
 

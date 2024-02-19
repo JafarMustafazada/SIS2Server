@@ -52,24 +52,11 @@ public class UserController : ControllerBase
     }
 
     // GET api/<UserController>/ConfirmRegistration
-    [HttpGet("ModifyEducationRole")]
+    [HttpGet("AddEducationRoleOnce")]
     [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Get(string username, ConstRoles.EducationRoles role, int entityId)
     {
-        // TODO: complete user controller + getall in service
-        //await this._authService.ChangeUserRole(username, role);
+        await this._authService.AddEducationRoleOnce(username, role, entityId);
         return Ok(true);
     }
-
-    // PUT api/<UserController>/jhonny
-    //[HttpPut("{userName}")]
-    //public void Put(string userName, [FromBody] string newEmail)
-    //{
-    //}
-
-    // DELETE api/<UserController>/5
-    //[HttpDelete("{id}")]
-    //public void Delete(int id)
-    //{
-    //}
 }

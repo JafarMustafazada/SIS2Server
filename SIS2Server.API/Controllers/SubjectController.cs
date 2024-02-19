@@ -1,43 +1,58 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SIS2Server.BLL.DTO.SubjectDTO;
+using SIS2Server.BLL.Services.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace SIS2Server.API.Controllers
+namespace SIS2Server.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class SubjectController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SubjectController : ControllerBase
+    ISubjectService _service { get; }
+
+    public SubjectController(ISubjectService service)
     {
-        // GET: api/<SubjectController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
+        this._service = service;
+    }
 
-        // GET api/<SubjectController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+    // //
+    // GET: api/<SubjectController>
+    [HttpGet]
+    public IActionResult Get()
+    {
+        return Ok(this._service.GetAll());
+    }
 
-        // POST api/<SubjectController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+    // GET api/<SubjectController>/5
+    [HttpGet("{id}")]
+    public IActionResult Get(int id)
+    {
+        return Ok(this._service.GetById(id));
+    }
 
-        // PUT api/<SubjectController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+    // POST api/<SubjectController>
+    [HttpPost]
+    public async Task<IActionResult> Post([FromBody] SubjectCreateDto dto)
+    {
+        await this._service.CreateAsync(dto);
+        return StatusCode(StatusCodes.Status201Created);
+    }
 
-        // DELETE api/<SubjectController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+    // PUT api/<SubjectController>/5
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, [FromBody] SubjectCreateDto dto)
+    {
+        await this._service.UpdateAsync(id, dto);
+        return Ok();
+    }
+
+    // DELETE api/<SubjectController>/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id, bool soft)
+    {
+        await this._service.RemoveAsync(id, soft);
+        return Ok();
     }
 }

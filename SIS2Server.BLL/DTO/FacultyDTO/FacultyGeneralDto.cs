@@ -1,18 +1,16 @@
 ﻿using SIS2Server.BLL.DTO.Common;
 using SIS2Server.Core.Entities.SubjectRelated;
 
-namespace SIS2Server.BLL.DTO.GroupDTO;
+namespace SIS2Server.BLL.DTO.FacultyDTO;
 
-public class GroupGeneralDto : IBaseDto<Group>
+public class FacultyGeneralDto : IBaseDto<Faculty>
 {
     public int Id { get; set; }
-    public int FacultyId { get; set; }
 
     public string Name { get; set; }
 
-
     // //
-    public Group GetEntity(Group entity = null)
+    public Faculty GetEntity(Faculty entity = null)
     {
         throw new NotImplementedException();
     }

@@ -28,6 +28,7 @@ public class FamilyMemberCreateDto : IBaseDto<FamilyMember>
 
         entity.Name = Name;
         entity.Surname = Surname;
+        entity.Patronymic = Patronymic;
         entity.Gender = Gender;
         entity.PlaceOfLiving = PlaceOfLiving;
         entity.Birthday = Birthday;

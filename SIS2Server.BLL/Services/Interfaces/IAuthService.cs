@@ -9,5 +9,5 @@ public interface IAuthService
     Task<bool> ConfirmRegistration(string confirmation);
     Task<string> Login(LoginDto dto);
     Task<bool> ChangeUserRole(string username, ConstRoles.UserRoles role);
-    Task<bool> ModifyEducationRole(string username, ConstRoles.EducationRoles role, int entityId);
+    Task<bool> AddEducationRoleOnce(string username, ConstRoles.EducationRoles role, int entityId);
 }

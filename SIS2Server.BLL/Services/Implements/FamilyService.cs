@@ -7,21 +7,28 @@ namespace SIS2Server.BLL.Services.Implements;
 
 public class FamilyService : GenericCUDService<FamilyMember, IFamilyMemberRepo, FamilyMemberCreateDto>, IFamilyService
 {
-    //IFamilyMemberRepo _repo { get; }
+    IFamilyMemberRepo _repo { get; }
+    IFamilyRelationRepo _relationRepo {  get; }
 
-    public FamilyService(IFamilyMemberRepo repo) : base(repo)
+    public FamilyService(IFamilyMemberRepo repo, IFamilyRelationRepo relationRepo) : base(repo)
     {
-        //this._repo = repo;
+        this._repo = repo;
+        this._relationRepo = relationRepo;
     }
 
     // //
-    public IEnumerable<FamilyMmemberDto> GetAll(int studentId)
+    public IEnumerable<FamilyMmemberDto> GetAll()
     {
-        throw new NotImplementedException();
+        return FamilyMmemberDto.SetEntities(this._repo.GetAll());
+    }
+
+    public IEnumerable<FamilyRelationDto> GetAllRelations()
+    {
+        return FamilyRelationDto.SetEntities(this._relationRepo.GetAll());
     }
 
     public FamilyMmemberDto GetById(int id)
     {
-        throw new NotImplementedException();
+        return FamilyMmemberDto.SetEntities(this._repo.CheckId(id)).First();
     }
 }

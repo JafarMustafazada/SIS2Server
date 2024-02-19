@@ -16,7 +16,7 @@ public static class PropertyBuilderExtensions
             .HasMaxLength(32);
         builder.Property(e => e.Patronymic)
             .IsRequired()
-            .HasMaxLength(32);           
+            .HasMaxLength(32);
         builder.Property(e => e.PlaceOfLiving)
             .IsRequired()
             .HasMaxLength(32);

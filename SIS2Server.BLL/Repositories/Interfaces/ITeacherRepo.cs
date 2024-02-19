@@ -2,6 +2,6 @@
 
 namespace SIS2Server.BLL.Repositories.Interfaces;
 
-public interface IStudentRepo : IGenericRepo<Student>, IUserRelationRepo
+public interface ITeacherRepo : IGenericRepo<Teacher>, IUserRelationRepo
 {
 }

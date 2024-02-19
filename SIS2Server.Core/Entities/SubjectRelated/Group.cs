@@ -1,4 +1,5 @@
 ﻿using SIS2Server.Core.Common;
+using SIS2Server.Core.Entities.StudentRelated;
 using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.Core.Entities.SubjectRelated;

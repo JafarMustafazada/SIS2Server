@@ -155,82 +155,6 @@ namespace SIS2Server.DAL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SIS2Server.Core.Entities.ClassRelated.Building", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Buildings");
-                });
-
-            modelBuilder.Entity("SIS2Server.Core.Entities.ClassRelated.ClassItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ClassItems");
-                });
-
-            modelBuilder.Entity("SIS2Server.Core.Entities.ClassRelated.Event", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("SIS2Server.Core.Entities.ClassRelated.Room", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Rooms");
-                });
-
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Faculty", b =>
                 {
                     b.Property<int>("Id")
@@ -247,14 +171,15 @@ namespace SIS2Server.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Faculties");
                 });
 
-            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Group", b =>
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.FacultySubject", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -271,14 +196,23 @@ namespace SIS2Server.DAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Semester")
+                        .HasMaxLength(9)
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("FacultyId");
 
-                    b.ToTable("Groups");
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("FacultySubjects");
                 });
 
-            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Score", b =>
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -289,12 +223,55 @@ namespace SIS2Server.DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("CurrentSemester")
+                        .HasMaxLength(9)
+                        .HasColumnType("int");
+
+                    b.Property<int>("FacultyId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Scores");
+                    b.HasIndex("FacultyId");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.StudentFormerGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentFormerGroups");
                 });
 
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Subject", b =>
@@ -311,9 +288,42 @@ namespace SIS2Server.DAL.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.TeacherSubject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("TeacherSubjects");
                 });
 
             modelBuilder.Entity("SIS2Server.Core.Entities.UserRelated.AppUser", b =>
@@ -390,14 +400,15 @@ namespace SIS2Server.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(320)
+                        .HasColumnType("nvarchar(320)");
 
                     b.Property<int>("FamilyReletaionId")
                         .HasColumnType("int");
@@ -410,26 +421,31 @@ namespace SIS2Server.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("Patronymic")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("PlaceOfLiving")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.HasKey("Id");
 
@@ -693,15 +709,72 @@ namespace SIS2Server.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.FacultySubject", b =>
+                {
+                    b.HasOne("SIS2Server.Core.Entities.SubjectRelated.Faculty", "Faculty")
+                        .WithMany("FacultySubjects")
+                        .HasForeignKey("FacultyId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SIS2Server.Core.Entities.SubjectRelated.Subject", "Subject")
+                        .WithMany("FacultySubjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Faculty");
+
+                    b.Navigation("Subject");
+                });
+
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Group", b =>
                 {
                     b.HasOne("SIS2Server.Core.Entities.SubjectRelated.Faculty", "Faculty")
                         .WithMany("Groups")
                         .HasForeignKey("FacultyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Faculty");
+                });
+
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.StudentFormerGroup", b =>
+                {
+                    b.HasOne("SIS2Server.Core.Entities.SubjectRelated.Group", "Group")
+                        .WithMany("StudentFormerGroups")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SIS2Server.Core.Entities.UserRelated.Student", "Student")
+                        .WithMany("StudentFormerGroups")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.TeacherSubject", b =>
+                {
+                    b.HasOne("SIS2Server.Core.Entities.SubjectRelated.Subject", "Subject")
+                        .WithMany("TeacherSubjects")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("SIS2Server.Core.Entities.UserRelated.Teacher", "Teacher")
+                        .WithMany("TeacherSubjects")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SIS2Server.Core.Entities.UserRelated.FamilyMember", b =>
@@ -709,7 +782,7 @@ namespace SIS2Server.DAL.Migrations
                     b.HasOne("SIS2Server.Core.Entities.UserRelated.FamilyReletaion", "FamilyReletaion")
                         .WithMany("FamilyMembers")
                         .HasForeignKey("FamilyReletaionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("SIS2Server.Core.Entities.UserRelated.Student", "Student")
@@ -774,12 +847,23 @@ namespace SIS2Server.DAL.Migrations
 
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Faculty", b =>
                 {
+                    b.Navigation("FacultySubjects");
+
                     b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Group", b =>
                 {
+                    b.Navigation("StudentFormerGroups");
+
                     b.Navigation("Students");
+                });
+
+            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Subject", b =>
+                {
+                    b.Navigation("FacultySubjects");
+
+                    b.Navigation("TeacherSubjects");
                 });
 
             modelBuilder.Entity("SIS2Server.Core.Entities.UserRelated.AppUser", b =>
@@ -798,11 +882,15 @@ namespace SIS2Server.DAL.Migrations
                 {
                     b.Navigation("FamilyMembers");
 
+                    b.Navigation("StudentFormerGroups");
+
                     b.Navigation("UserStudents");
                 });
 
             modelBuilder.Entity("SIS2Server.Core.Entities.UserRelated.Teacher", b =>
                 {
+                    b.Navigation("TeacherSubjects");
+
                     b.Navigation("UserTeachers");
                 });
 #pragma warning restore 612, 618

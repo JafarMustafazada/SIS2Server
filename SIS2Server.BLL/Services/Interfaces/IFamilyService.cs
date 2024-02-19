@@ -5,11 +5,12 @@ namespace SIS2Server.BLL.Services.Interfaces;
 
 public interface IFamilyService
 {
-    public IEnumerable<FamilyMmemberDto> GetAll(int studentId);
-    public FamilyMmemberDto GetById(int id);
-    public Task CreateAsync(FamilyMemberCreateDto dto);
-    public Task RemoveAsync(int id, bool soft = true);
-    public Task UpdateAsync(int id, FamilyMemberCreateDto dto);
+    IEnumerable<FamilyMmemberDto> GetAll();
+    IEnumerable<FamilyRelationDto> GetAllRelations();
+    FamilyMmemberDto GetById(int id);
+    Task CreateAsync(FamilyMemberCreateDto dto);
+    Task RemoveAsync(int id, bool soft = true);
+    Task UpdateAsync(int id, FamilyMemberCreateDto dto);
 }
 /*
     public IEnumerable<GeneralDto> GetAll(string querry = "-");

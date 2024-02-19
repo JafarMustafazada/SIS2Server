@@ -145,6 +145,8 @@ public static class FeatureAddingExtensions
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IGroupService, GroupService>();
         services.AddScoped<IFamilyService, FamilyService>();
+        services.AddScoped<ISubjectService, SubjectService>();
+        services.AddScoped<IFacultyService, FacultyService>();
 
         return services;
     }
@@ -154,6 +156,8 @@ public static class FeatureAddingExtensions
         services.AddScoped<IGroupRepo, GroupRepo>();
         services.AddScoped<IFamilyMemberRepo, FamilyMemberRepo>();
         services.AddScoped<IFamilyRelationRepo, FamilyRelationRepo>();
+        services.AddScoped<IFacultyRepo, FacultyRepo>();
+        services.AddScoped<ISubjectRepo, SubjectRepo>();
 
         return services;
     }

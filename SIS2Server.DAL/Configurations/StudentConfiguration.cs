@@ -34,5 +34,20 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             .WithOne(e => e.Student)
             .HasForeignKey(e => e.StudentId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(e => e.StudentFormerGroups)
+            .WithOne(e => e.Student)
+            .HasForeignKey(e => e.StudentId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(e => e.StudentSubjectScores)
+            .WithOne(e => e.Student)
+            .HasForeignKey(e => e.StudentId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasMany(e => e.StudentSubjectAttendances)
+            .WithOne(e => e.Student)
+            .HasForeignKey(e => e.StudentId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

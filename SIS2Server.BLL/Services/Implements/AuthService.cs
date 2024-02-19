@@ -5,9 +5,11 @@ using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.BLL.Exceptions.Auth;
 using SIS2Server.BLL.Extensions;
 using SIS2Server.BLL.ExternalServices.Interfaces;
+using SIS2Server.BLL.Repositories.Interfaces;
 using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Constants;
 using SIS2Server.Core.Entities.UserRelated;
+using SIS2Server.DAL.Contexts;
 using System.Security.Claims;
 
 namespace SIS2Server.BLL.Services.Implements;
@@ -20,13 +22,17 @@ public class AuthService : IAuthService
     IEmailService _emailService { get; }
     IConfiguration _configuration { get; }
     ITokenService _tokenService { get; }
+    ITeacherRepo _teacherRepo { get; }
+    IStudentRepo _studentRepo { get; }
 
     public AuthService(UserManager<AppUser> userManager,
         RoleManager<IdentityRole> roleManager,
         IHttpContextAccessor context,
         IEmailService emailService,
         IConfiguration configuration,
-        ITokenService tokenService)
+        ITokenService tokenService,
+        ITeacherRepo teacherRepo,
+        IStudentRepo studentRepo,)
     {
         this._userManager = userManager;
         this._roleManager = roleManager;
@@ -34,6 +40,8 @@ public class AuthService : IAuthService
         this._emailService = emailService;
         this._configuration = configuration;
         this._tokenService = tokenService;
+        this._teacherRepo = teacherRepo;
+        this._studentRepo = studentRepo;
     }
 
     //public async Task CreateRoles()
@@ -162,9 +170,17 @@ public class AuthService : IAuthService
         return true;
     }
 
-    public Task<bool> ModifyEducationRole(string username, ConstRoles.EducationRoles role, int entityId)
+    public async Task<bool> AddEducationRoleOnce(string username, ConstRoles.EducationRoles role, int entityId)
     {
-        // TODO: complete auth service
-        throw new NotImplementedException();
+        AppUser user = await this._userManager.FindByNameAsync(username) ?? throw new InvalidLoginException();
+
+        if (role == ConstRoles.EducationRoles.Student) await this._studentRepo.AddToUser(entityId, user.Id);
+        else if (role == ConstRoles.EducationRoles.Teacher) await this._teacherRepo.AddToUser(entityId, user.Id);
+        else return false;
+
+        IdentityResult result = await this._userManager.AddToRoleAsync(user, role.ToString());
+        if (!result.Succeeded) throw new RoleAddException(result.Errors.ParseDescriptions());
+
+        return true;
     }
 }
