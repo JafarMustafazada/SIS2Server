@@ -13,7 +13,7 @@ namespace SIS2Server.BLL.ExternalServices.Implements;
 public class TokenService : ITokenService
 {
     UserManager<AppUser> _userManager { get; set; }
-    Dictionary<string, string> _parameters { get; }
+    IReadOnlyDictionary<string, string> _parameters { get; }
 
     public TokenService(IConfiguration configuration, UserManager<AppUser> userManager)
     {

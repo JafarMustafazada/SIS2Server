@@ -4,4 +4,5 @@ namespace SIS2Server.BLL.Repositories.Interfaces;
 
 public interface IStudentRepo : IGenericRepo<Student>, IUserRelationRepo
 {
+    Task CreateFormerGroupLog(Student entity);
 }

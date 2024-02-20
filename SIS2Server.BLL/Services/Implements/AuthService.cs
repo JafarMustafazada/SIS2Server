@@ -32,7 +32,7 @@ public class AuthService : IAuthService
         IConfiguration configuration,
         ITokenService tokenService,
         ITeacherRepo teacherRepo,
-        IStudentRepo studentRepo,)
+        IStudentRepo studentRepo)
     {
         this._userManager = userManager;
         this._roleManager = roleManager;

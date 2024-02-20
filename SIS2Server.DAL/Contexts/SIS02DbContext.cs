@@ -16,19 +16,25 @@ public class SIS02DbContext : IdentityDbContext<AppUser>
     // //
     public DbSet<AppUser> AppUsers { get; set; }
     public DbSet<Student> Students { get; set; }
-    public DbSet<Teacher> Teachers { get; set; }
-    public DbSet<FamilyMember> FamilyMembers { get; set; }
-    public DbSet<FamilyReletaion> FamilyReletaions { get; set; }
     public DbSet<UserStudent> UserStudents { get; set; }
+    public DbSet<Teacher> Teachers { get; set; }
     public DbSet<UserTeacher> UserTeachers { get; set; }
+    public DbSet<FamilyReletaion> FamilyReletaions { get; set; }
+    public DbSet<FamilyMember> FamilyMembers { get; set; }
 
     // //
     public DbSet<StudentFormerGroup> StudentFormerGroups { get; set; }
+    public DbSet<StudentSubjectAttendance> StudentSubjectAttendances { get; set; }
+    public DbSet<StudentSubjectScore> StudentSubjectScores { get; set; }
+
+
+    // //
+    public DbSet<Subject> Subjects { get; set; }
+    public DbSet<TeacherSubject> TeacherSubjects { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
     public DbSet<FacultySubject> FacultySubjects { get; set; }
     public DbSet<Group> Groups { get; set; }
-    public DbSet<Subject> Subjects { get; set; }
-    public DbSet<TeacherSubject> TeacherSubjects { get; set; }
+    public DbSet<TeacherGroup> TeacherGroups { get; set; }
 
     // //
     //public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

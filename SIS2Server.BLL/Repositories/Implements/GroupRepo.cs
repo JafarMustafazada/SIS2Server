@@ -4,9 +4,18 @@ using SIS2Server.DAL.Contexts;
 
 namespace SIS2Server.BLL.Repositories.Implements;
 
-public class GroupRepo : GenericRepo<Group>, IGroupRepo
+public class GroupRepo(SIS02DbContext context) : GenericRepo<Group>(context), IGroupRepo
 {
-    public GroupRepo(SIS02DbContext context) : base(context)
+    public async Task AddTeacher(int teacherId, int groupId)
     {
+        this.CheckId(groupId);
+
+        await context.TeacherGroups.AddAsync(new()
+        {
+            TeacherId = teacherId,
+            GroupId = groupId,
+        });
+
+        await context.SaveChangesAsync();
     }
 }

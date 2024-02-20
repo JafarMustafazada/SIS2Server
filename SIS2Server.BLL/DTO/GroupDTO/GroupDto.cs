@@ -17,4 +17,15 @@ public class GroupDto : IBaseDto<Group>
     {
         throw new NotImplementedException();
     }
+
+    public static IEnumerable<GroupDto> SetEntities(IQueryable<Group> querry)
+    {
+        return querry.Select(e => new GroupDto
+        {
+            Id = e.Id,
+            FacultyId = e.FacultyId,
+            Name = e.Name,
+            CurrentSemester = e.CurrentSemester,
+        });
+    }
 }

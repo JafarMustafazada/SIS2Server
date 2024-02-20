@@ -12,7 +12,7 @@ public interface ITokenService
     IEnumerable<Claim> GetClaims(string token);
 
     // //
-    static TokenValidationParameters TokenValidator(Dictionary<string, string> parameters)
+    static TokenValidationParameters TokenValidator(IReadOnlyDictionary<string, string> parameters)
     {
         return new()
         {

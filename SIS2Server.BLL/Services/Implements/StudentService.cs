@@ -37,7 +37,7 @@ public class StudentService : GenericCUDService<Student, IStudentRepo, StudentCr
         Student entity = this._repo.CheckId(id, true).First();
         if (entity.GroupId != dto.GroupId)
         {
-            // TODO: complete student service
+            await this._repo.CreateFormerGroupLog(entity);
         }
         entity = dto.GetEntity(entity);
 

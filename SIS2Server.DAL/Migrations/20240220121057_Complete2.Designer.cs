@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SIS2Server.DAL.Contexts;
 
@@ -11,9 +12,11 @@ using SIS2Server.DAL.Contexts;
 namespace SIS2Server.DAL.Migrations
 {
     [DbContext(typeof(SIS02DbContext))]
-    partial class SIS02DbContextModelSnapshot : ModelSnapshot
+    [Migration("20240220121057_Complete2")]
+    partial class Complete2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -368,35 +371,6 @@ namespace SIS2Server.DAL.Migrations
                     b.ToTable("Subjects");
                 });
 
-            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.TeacherGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("TeacherGroups");
-                });
-
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.TeacherSubject", b =>
                 {
                     b.Property<int>("Id")
@@ -653,10 +627,10 @@ namespace SIS2Server.DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Entered")
+                    b.Property<DateOnly>("Entered")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("Expiration")
+                    b.Property<DateOnly>("Expiration")
                         .HasColumnType("date");
 
                     b.Property<bool>("Gender")
@@ -896,25 +870,6 @@ namespace SIS2Server.DAL.Migrations
                     b.Navigation("Faculty");
                 });
 
-            modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.TeacherGroup", b =>
-                {
-                    b.HasOne("SIS2Server.Core.Entities.SubjectRelated.Group", "Group")
-                        .WithMany("TeacherGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("SIS2Server.Core.Entities.UserRelated.Teacher", "Teacher")
-                        .WithMany("TeacherGroups")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Group");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.TeacherSubject", b =>
                 {
                     b.HasOne("SIS2Server.Core.Entities.SubjectRelated.Subject", "Subject")
@@ -926,7 +881,7 @@ namespace SIS2Server.DAL.Migrations
                     b.HasOne("SIS2Server.Core.Entities.UserRelated.Teacher", "Teacher")
                         .WithMany("TeacherSubjects")
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Subject");
@@ -1014,8 +969,6 @@ namespace SIS2Server.DAL.Migrations
                     b.Navigation("StudentFormerGroups");
 
                     b.Navigation("Students");
-
-                    b.Navigation("TeacherGroups");
                 });
 
             modelBuilder.Entity("SIS2Server.Core.Entities.SubjectRelated.Subject", b =>
@@ -1056,8 +1009,6 @@ namespace SIS2Server.DAL.Migrations
 
             modelBuilder.Entity("SIS2Server.Core.Entities.UserRelated.Teacher", b =>
                 {
-                    b.Navigation("TeacherGroups");
-
                     b.Navigation("TeacherSubjects");
 
                     b.Navigation("UserTeachers");

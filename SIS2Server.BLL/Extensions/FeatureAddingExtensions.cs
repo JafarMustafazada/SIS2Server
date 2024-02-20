@@ -15,6 +15,7 @@ using SIS2Server.BLL.Repositories.Interfaces;
 using SIS2Server.BLL.Services.Implements;
 using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Constants;
+using SIS2Server.Core.Entities.SubjectRelated;
 using SIS2Server.Core.Entities.UserRelated;
 using SIS2Server.DAL.Contexts;
 
@@ -46,7 +47,7 @@ public static class FeatureAddingExtensions
             }
         }
     }
-    static async Task CreateUser(UserManager<AppUser> userManager, string role, Dictionary<string, string> info)
+    static async Task CreateUser(UserManager<AppUser> userManager, string role, IReadOnlyDictionary<string, string> info)
     {
         if (await userManager.FindByNameAsync(info["UserName"]) == null)
         {
@@ -74,7 +75,9 @@ public static class FeatureAddingExtensions
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-                var familyRepo = scope.ServiceProvider.GetRequiredService<IFamilyRelationRepo>();
+
+                IFamilyRelationRepo familyRepo = scope.ServiceProvider.GetRequiredService<IFamilyRelationRepo>();
+                ISubjectRepo subjectRepo = scope.ServiceProvider.GetRequiredService<ISubjectRepo>();
 
                 await CreateRoles(roleManager, Enum.GetNames<ConstRoles.UserRoles>());
                 await CreateRoles(roleManager, Enum.GetNames<ConstRoles.EducationRoles>());
@@ -93,6 +96,19 @@ public static class FeatureAddingExtensions
 
                     await familyRepo.CreateAsync(entity);
                     await familyRepo.SaveAsync();
+                }
+
+                foreach (string item in ConstSubjects.Standart1.Split(','))
+                {
+                    if (await subjectRepo.IsExistAsync(e => e.Name == item)) continue;
+
+                    Subject entity = new()
+                    { 
+                        Name = item,
+                    };
+
+                    await subjectRepo.CreateAsync(entity);
+                    await subjectRepo.SaveAsync();
                 }
             }
 
@@ -140,9 +156,11 @@ public static class FeatureAddingExtensions
     {
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<ITokenService, TokenService>();
-
         services.AddScoped<IAuthService, AuthService>();
+
         services.AddScoped<IStudentService, StudentService>();
+        services.AddScoped<ITeacherService, TeacherService>();
+
         services.AddScoped<IGroupService, GroupService>();
         services.AddScoped<IFamilyService, FamilyService>();
         services.AddScoped<ISubjectService, SubjectService>();
@@ -153,11 +171,14 @@ public static class FeatureAddingExtensions
     public static IServiceCollection AddSisRepositories(this IServiceCollection services)
     {
         services.AddScoped<IStudentRepo, StudentRepo>();
-        services.AddScoped<IGroupRepo, GroupRepo>();
+        services.AddScoped<ITeacherRepo, TeacherRepo>();
+
         services.AddScoped<IFamilyMemberRepo, FamilyMemberRepo>();
         services.AddScoped<IFamilyRelationRepo, FamilyRelationRepo>();
+
         services.AddScoped<IFacultyRepo, FacultyRepo>();
         services.AddScoped<ISubjectRepo, SubjectRepo>();
+        services.AddScoped<IGroupRepo, GroupRepo>();
 
         return services;
     }
@@ -168,12 +189,4 @@ public static class FeatureAddingExtensions
 
         return services;
     }
-
-    // //
-    //public static IServiceCollection AddSisServiceCollection(this IServiceCollection services, IConfiguration configuration)
-    //{
-
-
-    //    return services;
-    //}
 }

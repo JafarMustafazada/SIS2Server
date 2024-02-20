@@ -17,11 +17,11 @@ public class SubjectService : GenericCUDService<Subject, ISubjectRepo, SubjectCr
     // //
     public IEnumerable<SubjectDto> GetAll()
     {
-        throw new NotImplementedException();
+        return SubjectDto.SetEntities(this._repo.GetAll());
     }
 
     public SubjectDto GetById(int id)
     {
-        throw new NotImplementedException();
+        return SubjectDto.SetEntities(this._repo.CheckId(id)).First();
     }
 }

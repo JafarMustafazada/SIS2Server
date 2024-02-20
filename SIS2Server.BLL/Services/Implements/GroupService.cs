@@ -8,20 +8,28 @@ namespace SIS2Server.BLL.Services.Implements;
 public class GroupService : GenericCUDService<Group, IGroupRepo, GroupCreateDto>, IGroupService
 {
     IGroupRepo _repo { get; }
+    ITeacherRepo _teacherRepo { get; }
 
-    public GroupService(IGroupRepo repo) : base(repo)
+    public GroupService(IGroupRepo repo, ITeacherRepo teacherRepo) : base(repo)
     {
         this._repo = repo;
+        this._teacherRepo = teacherRepo;
     }
 
     // //
     public IEnumerable<GroupDto> GetAll()
     {
-        throw new NotImplementedException();
+        return GroupDto.SetEntities(this._repo.GetAll());
     }
 
     public GroupDto GetById(int id)
     {
-        throw new NotImplementedException();
+        return GroupDto.SetEntities(this._repo.CheckId(id)).First();
+    }
+
+    public async Task AddTeacherAsync(int teacherId, int groupId)
+    {
+        this._teacherRepo.CheckId(teacherId);
+        await this._repo.AddTeacher(teacherId, groupId);
     }
 }

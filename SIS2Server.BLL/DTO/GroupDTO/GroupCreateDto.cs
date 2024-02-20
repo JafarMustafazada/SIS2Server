@@ -7,7 +7,6 @@ public class GroupCreateDto : IBaseDto<Group>
 {
     public int FacultyId { get; set; }
 
-    // //
     public string Name { get; set; }
     public int CurrentSemester { get; set; }
 
@@ -17,7 +16,7 @@ public class GroupCreateDto : IBaseDto<Group>
         entity ??= new();
 
         entity.FacultyId = FacultyId;
-
+        entity.CurrentSemester = CurrentSemester;
         entity.Name = Name;
 
         return entity;

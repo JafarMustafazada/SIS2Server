@@ -18,4 +18,15 @@ public class StudentRepo(SIS02DbContext context) : GenericRepo<Student>(context)
 
         await context.SaveChangesAsync();
     }
+
+    public async Task CreateFormerGroupLog(Student entity)
+    {
+        await context.StudentFormerGroups.AddAsync(new()
+        {
+            StudentId = entity.Id,
+            GroupId = entity.GroupId,
+        });
+
+        await context.SaveChangesAsync();
+    }
 }

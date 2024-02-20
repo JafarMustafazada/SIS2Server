@@ -26,6 +26,11 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
             .HasForeignKey(e => e.GroupId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        builder.HasMany(e => e.TeacherGroups)
+            .WithOne(e => e.Group)
+            .HasForeignKey(e => e.GroupId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.HasOne(e => e.Faculty)
             .WithMany(e => e.Groups)
             .HasForeignKey(e => e.FacultyId)

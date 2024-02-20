@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SIS2Server.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class CompleteOne : Migration
+    public partial class Complete2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,7 +86,7 @@ namespace SIS2Server.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<int>(type: "int", maxLength: 255, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -397,10 +397,10 @@ namespace SIS2Server.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -414,8 +414,63 @@ namespace SIS2Server.DAL.Migrations
                         name: "FK_StudentFormerGroups_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentSubjectAttendances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    HoursSkipped = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentSubjectAttendances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudentSubjectAttendances_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StudentSubjectAttendances_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentSubjectScores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SubjectId = table.Column<int>(type: "int", nullable: false),
+                    LabScore = table.Column<int>(type: "int", nullable: false),
+                    LecScore = table.Column<int>(type: "int", nullable: false),
+                    ExamScore = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StudentId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentSubjectScores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StudentSubjectScores_Students_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Students",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StudentSubjectScores_Subjects_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subjects",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -525,6 +580,26 @@ namespace SIS2Server.DAL.Migrations
                 column: "GroupId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StudentSubjectAttendances_StudentId",
+                table: "StudentSubjectAttendances",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentSubjectAttendances_SubjectId",
+                table: "StudentSubjectAttendances",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentSubjectScores_StudentId",
+                table: "StudentSubjectScores",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentSubjectScores_SubjectId",
+                table: "StudentSubjectScores",
+                column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeacherSubjects_SubjectId",
                 table: "TeacherSubjects",
                 column: "SubjectId");
@@ -581,6 +656,12 @@ namespace SIS2Server.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "StudentFormerGroups");
+
+            migrationBuilder.DropTable(
+                name: "StudentSubjectAttendances");
+
+            migrationBuilder.DropTable(
+                name: "StudentSubjectScores");
 
             migrationBuilder.DropTable(
                 name: "TeacherSubjects");
