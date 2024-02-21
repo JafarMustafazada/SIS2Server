@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SIS2Server.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Complete2 : Migration
+    public partial class complete3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -103,8 +103,8 @@ namespace SIS2Server.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Proficiency = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Salary = table.Column<decimal>(type: "DECIMAL(19,4)", nullable: false),
-                    Entered = table.Column<DateOnly>(type: "date", nullable: false),
-                    Expiration = table.Column<DateOnly>(type: "date", nullable: false),
+                    Entered = table.Column<DateTime>(type: "date", nullable: false),
+                    Expiration = table.Column<DateTime>(type: "date", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
@@ -297,8 +297,7 @@ namespace SIS2Server.DAL.Migrations
                         name: "FK_TeacherSubjects_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -354,6 +353,32 @@ namespace SIS2Server.DAL.Migrations
                         name: "FK_Students_Groups_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Groups",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeacherGroups",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TeacherId = table.Column<int>(type: "int", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeacherGroups", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeacherGroups_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TeacherGroups_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
                         principalColumn: "Id");
                 });
 
@@ -600,6 +625,16 @@ namespace SIS2Server.DAL.Migrations
                 column: "SubjectId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TeacherGroups_GroupId",
+                table: "TeacherGroups",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeacherGroups_TeacherId",
+                table: "TeacherGroups",
+                column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TeacherSubjects_SubjectId",
                 table: "TeacherSubjects",
                 column: "SubjectId");
@@ -662,6 +697,9 @@ namespace SIS2Server.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "StudentSubjectScores");
+
+            migrationBuilder.DropTable(
+                name: "TeacherGroups");
 
             migrationBuilder.DropTable(
                 name: "TeacherSubjects");

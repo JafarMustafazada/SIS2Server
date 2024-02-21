@@ -12,8 +12,8 @@ using SIS2Server.DAL.Contexts;
 namespace SIS2Server.DAL.Migrations
 {
     [DbContext(typeof(SIS02DbContext))]
-    [Migration("20240220160100_complete2d1")]
-    partial class complete2d1
+    [Migration("20240221130016_complete3")]
+    partial class complete3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

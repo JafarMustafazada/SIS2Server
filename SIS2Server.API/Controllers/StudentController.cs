@@ -20,7 +20,7 @@ public class StudentController : ControllerBase
     // //
     // GET: api/<StudentController>
     [HttpGet]
-    [Authorize(Roles = ConstRoles.AccessLevel2)]
+    [Authorize(Roles = ConstRoles.AccessLevel3)]
     public IActionResult Get(string groupName = "-")
     {
         return Ok(this._service.GetAll(groupName));
@@ -28,10 +28,26 @@ public class StudentController : ControllerBase
 
     // GET api/<StudentController>/5
     [HttpGet("{id}")]
-    [Authorize(Roles = ConstRoles.AccessLevel3)]
+    [Authorize(Roles = ConstRoles.AccessLevel2)]
     public IActionResult Get(int id)
     {
         return Ok(this._service.GetById(id));
+    }
+
+    // GET api/<StudentController>/5/Score
+    [HttpGet("{id}/Score")]
+    [Authorize(Roles = ConstRoles.AccessLevel3)]
+    public IActionResult Score(int id)
+    {
+        return Ok(this._service.GetAllScore(id));
+    }
+
+    // GET api/<StudentController>/5/Attendance
+    [HttpGet("{id}/Attendance")]
+    [Authorize(Roles = ConstRoles.AccessLevel3)]
+    public IActionResult Attendance(int id)
+    {
+        return Ok(this._service.GetAllAttendance(id));
     }
 
     // POST api/<StudentController>
@@ -45,7 +61,7 @@ public class StudentController : ControllerBase
 
     // PUT api/<StudentController>/5
     [HttpPut("{id}")]
-    [Authorize(Roles = ConstRoles.AccessLevel2)]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Put(int id, [FromBody] StudentCreateDto dto)
     {
         await _service.UpdateAsync(id, dto);

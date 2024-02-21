@@ -1,8 +1,6 @@
-﻿using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SIS2Server.BLL.DTO.Common;
 using SIS2Server.BLL.DTO.FamilyMmemberDTO;
-using SIS2Server.BLL.DTO.UserDTO;
 using SIS2Server.Core.Entities.UserRelated;
 
 namespace SIS2Server.BLL.DTO.StudentDTO;

@@ -47,6 +47,14 @@ public class FacultyController : ControllerBase
         return Ok();
     }
 
+    // PUT api/<FacultyController>/AddSubject/5
+    [HttpPut("AddSubject/{id}")]
+    public async Task<IActionResult> Put(int id, int subjectId, bool remove = false, int semester = 1)
+    {
+        await this._service.AddSubject(id, subjectId, remove, semester);
+        return Ok();
+    }
+
     // DELETE api/<FacultyController>/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, bool soft)

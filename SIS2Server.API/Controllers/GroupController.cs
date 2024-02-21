@@ -47,6 +47,14 @@ public class GroupController : ControllerBase
         return Ok();
     }
 
+    // PUT api/<GroupController>/5
+    [HttpPut("{id}/ModifyTeacher/{teacherId}")]
+    public async Task<IActionResult> Put(int id, int teacherId, bool remove = false)
+    {
+        await this._service.AddTeacherAsync(teacherId, id, remove);
+        return Ok();
+    }
+
     // DELETE api/<GroupController>/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id, bool soft)

@@ -27,9 +27,17 @@ public class GroupService : GenericCUDService<Group, IGroupRepo, GroupCreateDto>
         return GroupDto.SetEntities(this._repo.CheckId(id)).First();
     }
 
-    public async Task AddTeacherAsync(int teacherId, int groupId)
+    public async Task AddTeacherAsync(int teacherId, int groupId, bool remove)
     {
         this._teacherRepo.CheckId(teacherId);
-        await this._repo.AddTeacher(teacherId, groupId);
+
+        if (remove)
+        {
+            await this._repo.RemoveTeacher(teacherId, groupId);
+        }
+        else
+        {
+            await this._repo.AddTeacher(teacherId, groupId);
+        }
     }
 }

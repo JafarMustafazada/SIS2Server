@@ -51,8 +51,8 @@ public class UserController : ControllerBase
         return Ok(true);
     }
 
-    // GET api/<UserController>/ConfirmRegistration
-    [HttpGet("AddEducationRoleOnce")]
+    // GET api/<UserController>/SetConstantEducationRole
+    [HttpGet("SetConstantEducationRole")]
     [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Get(string username, ConstRoles.EducationRoles role, int entityId)
     {

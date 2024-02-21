@@ -14,4 +14,13 @@ public class FacultyGeneralDto : IBaseDto<Faculty>
     {
         throw new NotImplementedException();
     }
+
+    public static IEnumerable<FacultyGeneralDto> SetEntites(IQueryable<Faculty> querry)
+    {
+        return querry.Select(e => new FacultyGeneralDto
+        {
+            Id = e.Id,
+            Name = e.Name,
+        });
+    }
 }

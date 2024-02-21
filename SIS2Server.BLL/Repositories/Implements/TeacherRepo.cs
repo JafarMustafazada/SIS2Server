@@ -26,12 +26,15 @@ public class TeacherRepo(SIS02DbContext context) : GenericRepo<Teacher>(context)
     {
         this.CheckId(teacherId);
 
-        TeacherSubject entity = await context.TeacherSubjects
+        TeacherSubject entity = context.TeacherSubjects
             .Where(e => e.TeacherId == teacherId && e.SubjectId == subjectId)
-            .FirstAsync();
-        context.Remove(entity);
+            .FirstOrDefault();
 
-        await context.SaveChangesAsync();
+        if (entity != null)
+        {
+            context.Remove(entity);
+            await context.SaveChangesAsync();
+        }
     }
 
     public async Task AddToUser(int entityId, string userId)

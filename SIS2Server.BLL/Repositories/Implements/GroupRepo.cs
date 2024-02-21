@@ -18,4 +18,19 @@ public class GroupRepo(SIS02DbContext context) : GenericRepo<Group>(context), IG
 
         await context.SaveChangesAsync();
     }
+
+    public async Task RemoveTeacher(int teacherId, int groupId)
+    {
+        this.CheckId(groupId);
+
+        TeacherGroup entity = context.TeacherGroups
+            .Where(e => e.TeacherId == teacherId && e.GroupId == groupId)
+            .SingleOrDefault();
+
+        if (entity != null)
+        {
+            context.Remove(entity);
+            await context.SaveChangesAsync();
+        }
+    }
 }

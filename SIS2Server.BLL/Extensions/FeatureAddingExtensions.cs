@@ -137,7 +137,7 @@ public static class FeatureAddingExtensions
 
         return services;
     }
-    public static IServiceCollection AddSisTokenAuth(this IServiceCollection services, Dictionary<string, string> parameters)
+    public static IServiceCollection AddSisTokenAuth(this IServiceCollection services, IReadOnlyDictionary<string, string> parameters)
     {
         services.AddAuthentication(options =>
         {
@@ -179,6 +179,9 @@ public static class FeatureAddingExtensions
         services.AddScoped<IFacultyRepo, FacultyRepo>();
         services.AddScoped<ISubjectRepo, SubjectRepo>();
         services.AddScoped<IGroupRepo, GroupRepo>();
+
+        services.AddScoped<IStudentSubjectAttendanceRepo, StudentSubjectAttendanceRepo>();
+        services.AddScoped<IStudentSubjectScoreRepo, StudentSubjectScoreRepo>();
 
         return services;
     }
