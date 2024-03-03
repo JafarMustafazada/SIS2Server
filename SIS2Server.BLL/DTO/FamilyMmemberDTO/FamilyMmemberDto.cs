@@ -35,12 +35,14 @@ public class FamilyMmemberDto : IBaseDto<FamilyMember>
         {
             Id = item.Id,
             StudentId = item.StudentId,
+            RelationId = item.FamilyReletaionId,
 
             Name = item.Name,
             Surname = item.Surname,
             Gender = item.Gender,
             Birthday = item.Birthday,
             Patronymic = item.Patronymic,
+            PlaceOfLiving = item.PlaceOfLiving,
 
             PhoneNumber = item.PhoneNumber,
             Email = item.Email,

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SIS2Server.BLL.DTO.SubjectDTO;
 using SIS2Server.BLL.Services.Interfaces;
+using SIS2Server.Core.Constants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,6 +36,7 @@ public class SubjectController : ControllerBase
 
     // POST api/<SubjectController>
     [HttpPost]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Post([FromBody] SubjectCreateDto dto)
     {
         await this._service.CreateAsync(dto);
@@ -42,6 +45,7 @@ public class SubjectController : ControllerBase
 
     // PUT api/<SubjectController>/5
     [HttpPut("{id}")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Put(int id, [FromBody] SubjectCreateDto dto)
     {
         await this._service.UpdateAsync(id, dto);
@@ -50,6 +54,7 @@ public class SubjectController : ControllerBase
 
     // DELETE api/<SubjectController>/5
     [HttpDelete("{id}")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Delete(int id, bool soft)
     {
         await this._service.RemoveAsync(id, soft);

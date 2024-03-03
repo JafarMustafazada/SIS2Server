@@ -23,8 +23,8 @@ public class StudentDto : IBaseDto<Student>
     public bool Gender { get; set; } = true;
     public DateTime Birthday { get; set; }
 
-    public DateOnly Entered { get; set; }
-    public DateOnly Graduation { get; set; }
+    public DateTime Entered { get; set; }
+    public DateTime Graduation { get; set; }
     public string Nationality { get; set; }
 
     IEnumerable<FamilyMmemberDto> FamilyMmembers { get; set; }

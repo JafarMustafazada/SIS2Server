@@ -9,8 +9,8 @@ public class Student : PersonEntity
     public int GroupId { get; set; }
 
     // //
-    public DateOnly Entered { get; set; }
-    public DateOnly Graduation { get; set; }
+    public DateTime Entered { get; set; }
+    public DateTime Graduation { get; set; }
     public string Nationality { get; set; }
 
     // //

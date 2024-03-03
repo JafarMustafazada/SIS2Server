@@ -9,7 +9,6 @@ using SIS2Server.BLL.Repositories.Interfaces;
 using SIS2Server.BLL.Services.Interfaces;
 using SIS2Server.Core.Constants;
 using SIS2Server.Core.Entities.UserRelated;
-using SIS2Server.DAL.Contexts;
 using System.Security.Claims;
 
 namespace SIS2Server.BLL.Services.Implements;
@@ -77,10 +76,10 @@ public class AuthService : IAuthService
         this.SendConfirmation(user);
     }
 
-    string HtmlTemplate(string link, string name = "Confirm Link")
+    string HtmlTemplate(string link, string name = "<!-- Confirm-Link-tag -->")
     {
-        string tag = "<a href='" + link + "'>" + name + "</a>";
-        string path = this._configuration["ConfirmationHtmlPath"];
+        string tag = "<a href='" + link + "'></a>";
+        string path = this._configuration["CustomEP:ConfirmationHtmlPath"];
 
         if (File.Exists(path))
         {
@@ -145,14 +144,14 @@ public class AuthService : IAuthService
             throw new EmailNotConfirmedException();
         }
 
-        return this._tokenService.CreateUserToken(user);
+        return this._configuration["Token:Scheme"] + " " + this._tokenService.CreateUserToken(user);
     }
 
     public async Task<bool> ChangeUserRole(string username, ConstRoles.UserRoles role)
     {
         AppUser user = await this._userManager.FindByNameAsync(username) ?? throw new InvalidLoginException();
 
-        List<string> rolesToRemove = new List<string>();
+        List<string> rolesToRemove = new();
         foreach (string item in await this._userManager.GetRolesAsync(user))
         {
             if (Enum.IsDefined(typeof(ConstRoles.UserRoles), item))

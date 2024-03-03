@@ -17,8 +17,8 @@ public class StudentCreateDto : IBaseDto<Student>
     public bool Gender { get; set; }
     public DateTime Birthday { get; set; }
 
-    public DateOnly Entered { get; set; }
-    public DateOnly Graduation { get; set; }
+    public DateTime Entered { get; set; }
+    public DateTime Graduation { get; set; }
     public string Nationality { get; set; }
 
     // //

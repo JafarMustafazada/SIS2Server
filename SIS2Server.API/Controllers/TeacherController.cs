@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SIS2Server.BLL.DTO.SubjectDTO;
 using SIS2Server.BLL.DTO.TeacherDTO;
 using SIS2Server.BLL.ExternalServices.Interfaces;
@@ -27,6 +28,7 @@ public class TeacherController : ControllerBase
 
     // GET: api/<TeacherController>
     [HttpGet]
+    [Authorize(Roles = ConstRoles.AccessLevel3)]
     public IActionResult Get()
     {
         return Ok(this._service.GetAll());
@@ -34,6 +36,8 @@ public class TeacherController : ControllerBase
 
     // GET api/<TeacherController>/5
     [HttpGet("{id}")]
+
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public IActionResult Get(int id)
     {
         return Ok(this._service.GetById(id));
@@ -41,6 +45,7 @@ public class TeacherController : ControllerBase
 
     // POST api/<TeacherController>
     [HttpPost]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Post([FromBody] TeacherCreateDto dto)
     {
         await this._service.CreateAsync(dto);
@@ -49,14 +54,16 @@ public class TeacherController : ControllerBase
 
     // PUT api/<TeacherController>/5
     [HttpPut("{id}")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Put(int id, [FromBody] TeacherCreateDto dto)
     {
         await this._service.UpdateAsync(id, dto);
         return Ok();
     }
 
-    // PUT api/<TeacherController>/5
-    [HttpPut("AddSubject/{id}")]
+    // PUT api/<TeacherController>/5/AddSubject
+    [HttpPut("{id}/AddSubject")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Put(int id, int subjectId, bool remove = false)
     {
         await this._service.AddSubjectAsync(id, subjectId, remove);
@@ -65,6 +72,7 @@ public class TeacherController : ControllerBase
 
     // DELETE api/<TeacherController>/5
     [HttpDelete("{id}")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Delete(int id, bool soft)
     {
         await this._service.RemoveAsync(id, soft);

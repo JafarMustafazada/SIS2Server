@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SIS2Server.BLL.DTO.FacultyDTO;
 using SIS2Server.BLL.Services.Interfaces;
+using SIS2Server.Core.Constants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,6 +35,7 @@ public class FacultyController : ControllerBase
 
     // POST api/<FacultyController>
     [HttpPost]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Post([FromBody] FacultyCreateDto dto)
     {
         await this._service.CreateAsync(dto);
@@ -41,14 +44,16 @@ public class FacultyController : ControllerBase
 
     // PUT api/<FacultyController>/5
     [HttpPut("{id}")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Put(int id, [FromBody] FacultyCreateDto dto)
     {
         await this._service.UpdateAsync(id, dto);
         return Ok();
     }
 
-    // PUT api/<FacultyController>/AddSubject/5
-    [HttpPut("AddSubject/{id}")]
+    // PUT api/<FacultyController>/5/AddSubject
+    [HttpPut("{id}/AddSubject")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Put(int id, int subjectId, bool remove = false, int semester = 1)
     {
         await this._service.AddSubject(id, subjectId, remove, semester);
@@ -57,6 +62,7 @@ public class FacultyController : ControllerBase
 
     // DELETE api/<FacultyController>/5
     [HttpDelete("{id}")]
+    [Authorize(Roles = ConstRoles.AccessLevel1)]
     public async Task<IActionResult> Delete(int id, bool soft)
     {
         await this._service.RemoveAsync(id, soft);
